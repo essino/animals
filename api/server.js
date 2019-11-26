@@ -21,8 +21,8 @@ var server = app.listen(8081, function () {
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "olso",
-    password: "olso",
+    user: "",
+    password: "",
     database: "animals"
 });
 
