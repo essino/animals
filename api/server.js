@@ -8,6 +8,10 @@ app.use(cors());
 
 var mysql = require('mysql');
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.get('/cutiepie', function (req, res) {
     console.log(req.params);
 
@@ -28,7 +32,7 @@ app.get('/cutiepie', function (req, res) {
 app.post('/table', function(req, res) {
     console.log(req.body);
     console.log(req.params);
-    con.query("INSERT INTO elainkuva (elain, kuvaus, linkki) VALUES ('lehmä', 'kaunis', 'https://upload.wikimedia.org/wikipedia/commons/3/32/SalersBreed_Cow_5.JPG');", function (err, result, fields) {
+    con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('lehmä', 'kaunis', 'https://upload.wikimedia.org/wikipedia/commons/3/32/SalersBreed_Cow_5.JPG');", function (err, result, fields) {
         if (err) throw err;
     })
     res.send(req.body);
