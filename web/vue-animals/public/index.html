@@ -5,13 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+
     <title>vue-animals</title>
+    <script src="../../../api/server.js"></script>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but vue-animals doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+   <button type="button" onclick="searchDatabase()">Hae kuvat</button>
+   <div id="results"></div>
+
   </body>
+
+<script>
+  var json;
+
+  function searchDatabase() {
+
+    console.log("Painoit nappia");
+
+    var number = new XMLHttpRequest();
+    number.onreadystatechange = function() {
+      if (number.readyState == 4 && number.status == 200) {
+        json = JSON.parse(number.responseText);
+
+        var lenght = 0;
+        for (var key in json) {
+          if (json.hasOwnProperty(key)) {
+            lenght++;
+          }
+        }
+
+        if (lenght > 0) {
+          console.log(json[0].linkki);
+
+          var divElement = document.getElementById("results");
+          divElement.innerText = "";
+          var i;
+
+          //Haetaan tietokannasta tiedot ja lisätään kuva, läpinäkyvän kuvan päälle
+          for (i in json) {
+
+            var unOnrder = document.createElement("ul");
+            divElement.appendChild(unOnrder);
+
+            var listElement = document.createElement("li");
+
+            var pic = json[i].linkki;
+
+            console.log(json[i].linkki);
+
+            makePicture(pic);
+
+           //let img = document.getElementById("image");
+
+           //img.setAttribute("scr", json[i].linkki);
+
+            //listElement.innerHTML = pic;
+            //unOnrder.appendChild(listElement);
+            //console.log("Bonus logi");
+          }
+        }
+
+      }
+    };
+
+    number.open("GET", "http://localhost:8081/cutiepie");
+    number.send();
+  }
+
+
+
+  //Lisää läpinäkyvän kuvan sivulle
+  function makePicture(pic) {
+    var x = document.createElement("img");
+    x.setAttribute("src", pic);
+    x.setAttribute("id", "image");
+    //x.setAttribute("width", "200");
+    x.setAttribute("height", "200");
+    document.body.appendChild(x);
+    console.log("Kuva luotu!");
+  }
+
+
+</script>
+
+
+
+
 </html>
