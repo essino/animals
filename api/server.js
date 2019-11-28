@@ -9,7 +9,7 @@ app.use(cors());
 var mysql = require('mysql');
 
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/cutiepie', function (req, res) {
@@ -29,10 +29,14 @@ app.get('/cutiepie', function (req, res) {
     })
 });
 
-app.post('/table', function(req, res) {
+app.post('/postphoto', function(req, res) {
+//app.post('/postphoto/:descr/:animal/:linkki', function(req, res) {
+
     console.log(req.body);
-    console.log(req.params);
-    con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('lehmä', 'kaunis', 'https://upload.wikimedia.org/wikipedia/commons/3/32/SalersBreed_Cow_5.JPG');", function (err, result, fields) {
+    //console.log(req.params);
+    //console.log(req.params.linkki);
+    //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
+    con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.body.Kuvaus+ "', '"+req.body.Elain+"', '"+req.body.Linkki+"');", function (err, result, fields) {
         if (err) throw err;
     })
     res.send(req.body);
