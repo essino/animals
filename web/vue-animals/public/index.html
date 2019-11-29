@@ -7,54 +7,107 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
 
     <title>vue-animals</title>
+    <script src="WebstormProjects/animals/api/server.js"></script>
   </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but vue-animals doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <input id="app">
-      <div id="images"></div>
-      <input type="text" id="newanimal" placeholder="What animal is it?"></input>
-      <input type="text" id="newdescription" placeholder="Describe the animal"></input>
-      <input type="text" id="newurl" placeholder="Add the photo's url"></input>
+  <input>
+
     <button id="addphoto" type="button" onclick="addPhoto()">Add a cute animal photo!</button>
 
+    <div id="description">
+      Desccribe your cute animal: <select name="description"/>
+      <option value="item1">Supercute</option>
+      <option value="item2">Adorable</option>
+      <option value="item3">Lovely</option></select>
     </div>
+    <div>
+      <input id="animal" placeholder="Animal <3" type="text">What animal is it?</input>
+    </div>
+  <div>
+    <input id="link" placeholder="Link" type="text">Add your link.</input>
+  </div>
+
+
+    <button type="button" onclick="searchDatabase()">Hae kuvat</button>
+    <div id="results"></div>
+
 
     <script>
 
+      var json;
 
-
-      function addPhoto(){
-        console.log("In addPhoto");
-        let linkki = document.getElementById("newurl").value;
-        let animal = document.getElementById("newanimal").value;
-        let descr = document.getElementById("newdescription").value;
-
-        let data = {Elain: animal, Kuvaus: descr, Linkki: linkki};
-        let json =JSON.stringify(data);
-
-        var xmlhttp = new XMLHttpRequest();
-        console.log("after xmlhttp");
-
-        xmlhttp.onreadystatechange = function() {
-          console.log("in function");
-          if (data == 0) { // fix this and support empty field
-            return;
-          } else {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-              console.log("Responsetext: " + xmlhttp.responseText);
-              console.log("does this work");
+      function searchDatabase() {
+        console.log("Painoit nappia");
+        var number = new XMLHttpRequest();
+        number.onreadystatechange = function() {
+          if (number.readyState == 4 && number.status == 200) {
+            console.log("inside");
+            console.log(number.readyState);
+            console.log(number.readyState);
+            json = JSON.parse(number.responseText);
+            var lenght = 0;
+            for (var key in json) {
+              if (json.hasOwnProperty(key)) {
+                lenght++;
+              }
             }
-            console.log("before open");
-            xmlhttp.open("POST", "http://localhost:8081/postphoto/", true);
-            //xmlhttp.open("POST", "http://localhost:8081/postphoto/" +descr+ "/" +animal+ "/" +linkki, true);
-            //xmlhttp.open("GET", "http://localhost:8081/api/events?start=" + startdate+"&end="+enddate, true);
-            xmlhttp.send(json);
-            console.log("data sent");
+            if (lenght > 0) {
+              console.log(json[0].linkki);
+              var divElement = document.getElementById("results");
+              divElement.innerText = "";
+              var i;
+              //Haetaan tietokannasta tiedot ja lisätään kuva, läpinäkyvän kuvan päälle
+              for (i in json) {
+                var unOnrder = document.createElement("ul");
+                divElement.appendChild(unOnrder);
+                var listElement = document.createElement("li");
+                var pic = json[i].linkki;
+                console.log(json[i].linkki);
+                makePicture(pic);
+                //let img = document.getElementById("image");
+                //img.setAttribute("scr", json[i].linkki);
+                //listElement.innerHTML = pic;
+                //unOnrder.appendChild(listElement);
+                //console.log("Bonus logi");
+              }
+            }
           }
-        }
+        };
+        number.open("GET", "http://localhost:8081/cutiepie");
+        number.send();
+      }
+      //Lisää läpinäkyvän kuvan sivulle
+      function makePicture(pic) {
+        var x = document.createElement("img");
+        x.setAttribute("src", pic);
+        x.setAttribute("id", "image");
+        //x.setAttribute("width", "200");
+        x.setAttribute("height", "200");
+        document.body.appendChild(x);
+        console.log("Kuva luotu!");
+      }
+
+      function addPhoto() {
+        var xhttp = new XMLHttpRequest();
+        var data = {};
+        //data.kuvaus = document.getElementById('description');
+        data.kuvaus = document.getElementById('description').value;
+        data.elain = document.getElementById('animal').value;
+        data.linkki = document.getElementById('link').value;
+        console.log(data.elain);
+        console.log("data: "+ data);
+        var json1 =JSON.stringify(data);
+        console.log("json:" + json1);
+
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log("Responsetext: " + xhttp.responseText);
+          }
+        };
+        xhttp.open("POST", "http://localhost:8081/postphoto/", true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send(json1);
       };
+
     </script>
     <!-- built files will be auto injected -->
   </body>
