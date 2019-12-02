@@ -1,4 +1,6 @@
 //http://127.0.0.1:8081/cutiepie
+//http://127.0.0.1:8081/puppies
+//http://127.0.0.1:8081/postphoto
 
 var express = require('express');
 var app = express();
@@ -11,11 +13,10 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.get('/cutiepie', function (req, res) {
     console.log(req.params);
 
-    con.query("SELECT linkki FROM Elainkuvia", function (err, result, fields) {
+    con.query("SELECT id, linkki FROM Elainkuvia", function (err, result, fields) {
         if (err) throw err;
         let results = [];
         if (result.length){
