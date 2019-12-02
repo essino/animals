@@ -26,6 +26,8 @@ app.get('/cutiepie', function (req, res) {
     })
 });
 
+app.get('/puppies', function (req, res) {
+    console.log(req.params);
 
 app.get('/sweetassugar', function (req, res) {
   console.log(req.params);
@@ -45,10 +47,17 @@ app.get('/sweetassugar', function (req, res) {
 });
 
 
-app.post('/table', function(req, res) {
+app.post('/postphoto', function(req, res) {
+//app.post('/postphoto/:descr/:animal/:linkki', function(req, res) {
+    console.log(req);
+    console.log(res);
+    console.log("body: ");
     console.log(req.body);
+    console.log("params:");
     console.log(req.params);
-    con.query("INSERT INTO elainkuva (elain, kuvaus, linkki) VALUES ('lehmä', 'kaunis', 'https://upload.wikimedia.org/wikipedia/commons/3/32/SalersBreed_Cow_5.JPG');", function (err, result, fields) {
+    console.log("kuvaus: " + req.body.Kuvaus);
+    //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
+    con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.body.kuvaus+ "', '"+req.body.elain+"', '"+req.body.linkki+"');", function (err, result, fields) {
         if (err) throw err;
     })
     res.send(req.body);

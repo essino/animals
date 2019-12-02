@@ -136,8 +136,28 @@
     console.log("Kohta tapahtuu!"+key);
 
 
-
   }
+  function addPhoto() {
+        var xhttp = new XMLHttpRequest();
+        var data = {};
+        //data.kuvaus = document.getElementById('description');
+        data.kuvaus = document.getElementById('description').value;
+        data.elain = document.getElementById('animal').value;
+        data.linkki = document.getElementById('link').value;
+        console.log(data.elain);
+        console.log("data: "+ data);
+        var json1 =JSON.stringify(data);
+        console.log("json:" + json1);
+
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log("Responsetext: " + xhttp.responseText);
+          }
+        };
+        xhttp.open("POST", "http://localhost:8081/postphoto/", true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send(json1);
+      };
 
 
 
