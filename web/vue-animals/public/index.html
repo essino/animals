@@ -16,7 +16,12 @@
    <div id="results"></div>
 
 
+<div id="Comments">
+  <div id="bigPicturePage"></div>
+  <div id="CommentsFromDatabase"></div>
 
+
+</div>
 
 
 
@@ -24,6 +29,8 @@
 
 <script>
   var json;
+
+
 
   function searchDatabase() {
 
@@ -40,7 +47,7 @@
             lenght++;
           }
         }
-        var key=1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
+       var key=1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
 
         if (lenght > 0) {
           console.log(json[0].id);
@@ -64,10 +71,13 @@
 
 
 
+
             console.log(json[i].linkki);
             console.log(json[i].id);
 
             makePicture(pic,key);
+
+
 
 
 
@@ -94,6 +104,7 @@
   function makePicture(pic,key) {
 
     var link = document.createElement("a");
+
     //link.href = "page.html";
 
     var x = document.createElement("img");
@@ -101,6 +112,9 @@
     x.setAttribute("id", key);
     //x.setAttribute("width", "200");
     x.setAttribute("height", "200");
+    x.setAttribute("onclick", "bigPicture("+key+");");
+//x.onclick = bigPicture(key);
+
 
     //x.setAttribute("href", "page.html");
     link.appendChild(x);
@@ -109,6 +123,18 @@
     document.body.appendChild(link);
 
     console.log("Kuva luotu!");
+    console.log(key);
+
+
+
+
+  }
+
+  function bigPicture(key) {
+
+
+    console.log("Kohta tapahtuu!"+key);
+
 
 
   }

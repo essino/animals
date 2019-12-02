@@ -27,6 +27,23 @@ app.get('/cutiepie', function (req, res) {
 });
 
 
+app.get('/sweetassugar', function (req, res) {
+  console.log(req.params);
+
+  con.query("select Kommentti from Komentit where avain=id; ", function (err, result, fields) {
+    if (err) throw err;
+    let results = [];
+    if (result.length){
+      for (var i = 0; i < result.length; i++){
+        results.push(result[i]);
+      }
+      console.log(result);
+    }
+    //sends the HTTP response
+    res.send(results);
+  })
+});
+
 
 app.post('/table', function(req, res) {
     console.log(req.body);
