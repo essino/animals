@@ -12,7 +12,7 @@ var mysql = require('mysql');
 app.get('/cutiepie', function (req, res) {
     console.log(req.params);
 
-    con.query("SELECT linkki FROM Elainkuvia", function (err, result, fields) {
+    con.query("SELECT id, linkki FROM Elainkuvia", function (err, result, fields) {
         if (err) throw err;
         let results = [];
         if (result.length){
@@ -26,22 +26,7 @@ app.get('/cutiepie', function (req, res) {
     })
 });
 
-app.get('/puppies', function (req, res) {
-    console.log(req.params);
 
-    con.query("select Kommentti from Komentit where avain=1" , function (err, result, fields) {
-        if (err) throw err;
-        let results = [];
-        if (result.length){
-            for (var i = 0; i < result.length; i++){
-                results.push(result[i]);
-            }
-            console.log(result);
-        }
-        //sends the HTTP response
-        res.send(results);
-    })
-});
 
 app.post('/table', function(req, res) {
     console.log(req.body);

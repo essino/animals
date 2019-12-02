@@ -8,10 +8,17 @@
 
     <title>vue-animals</title>
     <script src="../../../api/server.js"></script>
+    <script src="../../js/localstore.js"></script>
+
   </head>
   <body>
    <button type="button" onclick="searchDatabase()">Hae kuvat</button>
    <div id="results"></div>
+
+
+   <a href="page.html">Linkki</a>
+
+
 
   </body>
 
@@ -33,9 +40,12 @@
             lenght++;
           }
         }
+        var key=1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
 
         if (lenght > 0) {
+          console.log(json[0].id);
           console.log(json[0].linkki);
+
 
           var divElement = document.getElementById("results");
           divElement.innerText = "";
@@ -50,10 +60,16 @@
             var listElement = document.createElement("li");
 
             var pic = json[i].linkki;
+            var key = json[i].id;
+
+
 
             console.log(json[i].linkki);
+            console.log(json[i].id);
 
-            makePicture(pic);
+            makePicture(pic,key);
+
+
 
            //let img = document.getElementById("image");
 
@@ -75,15 +91,28 @@
 
 
   //Lisää läpinäkyvän kuvan sivulle
-  function makePicture(pic) {
+  function makePicture(pic,key) {
+
+    var link = document.createElement("a");
+    link.href = "page.html";
+
     var x = document.createElement("img");
     x.setAttribute("src", pic);
-    x.setAttribute("id", "image");
+    x.setAttribute("id", key);
     //x.setAttribute("width", "200");
     x.setAttribute("height", "200");
-    document.body.appendChild(x);
+
+    //x.setAttribute("href", "page.html");
+    link.appendChild(x);
+
+
+    document.body.appendChild(link);
+
     console.log("Kuva luotu!");
+
+
   }
+
 
 
 </script>
