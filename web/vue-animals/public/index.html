@@ -9,23 +9,28 @@
     <title>vue-animals</title>
     <script src="WebstormProjects/animals/api/server.js"></script>
     <script src="../../js/localstore.js"></script>
+    <script src="../../js/frontscript.js"></script>
   </head>
-  <h1>Cute animal pics</h1>
+  <h1><a href="#front">Cute animal pics</a></h1>
   <nav>
     <ul>
-      <li><a href="#look">Look at cute animal pics</a></li>
       <li><a href="#add">Add a cute animal pic</a></li>
+      <li><a href="#look">Look at cute animal pics</a></li>
     </ul>
   </nav>
   <main>
-      <div id="frontpage">
+      <div id="frontPage">
+        <p>Tähän tulee logo</p>
+
+      </div>
+
+      <div id="addPage">
         <div id="description">
           Desccribe your cute animal: <select name="description"/>
           <option value="item1">Supercute</option>
           <option value="item2">Adorable</option>
           <option value="item3">Lovely</option></select>
         </div>
-
         <div>
           <input id="animal" placeholder="Animal <3" type="text">What animal is it?</input>
         </div>
@@ -35,15 +40,57 @@
         <button id="addphoto" type="button" onclick="addPhoto()">Add a cute animal photo!</button>
       </div>
 
-    <button type="button" onclick="searchDatabase()">Hae kuvat</button>
-    <div id="results"></div>
+      <div id="showPage">
+        <button type="button" onclick="searchDatabase()">Hae kuvat</button>
+        <div id="results"></div>
+      </div>
 
+      <div id="commentPage"></div>
 
   </main>
 
   <script>
 
     var json;
+
+    if (window.location.hash == '#front' || json === null) {
+      document.getElementById('addPage').style.display = 'none';
+      document.getElementById('showPage').style.display = 'none';
+      document.getElementById('commentPage').style.display = 'none';
+    } else if (window.location.hash == '#add'){
+      document.getElementById('frontPage').style.display = 'none';
+      document.getElementById('showPage').style.display = 'none';
+      document.getElementById('commentPage').style.display = 'none';
+    } else if (window.location.hash == '#show') {
+      document.getElementById('frontPage').style.display = 'none';
+      document.getElementById('addPage').style.display = 'none';
+      document.getElementById('commentPage').style.display = 'none';
+    } else {
+      document.getElementById('frontPage').style.display = 'none';
+      document.getElementById('addPage').style.display = 'none';
+      document.getElementById('showPage').style.display = 'none';
+    }
+
+    document.querySelector('nav > ul > li:nth-child(1)').onclick = function() {
+      console.log('first link clicked');
+
+      document.getElementById('addPage').style.display = 'block';
+      document.getElementById('frontPage').style.display = 'none';
+      document.getElementById('showPage').style.display = 'none';
+      document.getElementById('commentPage').style.display = 'none';
+    };
+
+    document.querySelector('nav > ul > li:nth-child(2)').onclick = function() {
+      console.log('second link clicked');
+      document.getElementById('showPage').style.display = 'block';
+      document.getElementById('addPage').style.display = 'none';
+      document.getElementById('showPage').style.display = 'none';
+      document.getElementById('commentPage').style.display = 'none';
+
+      searchDatabase();
+    };
+
+
     function searchDatabase() {
       console.log("Painoit nappia");
       var number = new XMLHttpRequest();
