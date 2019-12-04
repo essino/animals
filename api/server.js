@@ -4,6 +4,7 @@
 
 var express = require('express');
 var app = express();
+var url = require('url');
 
 var cors = require('cors');
 app.use(cors());
@@ -13,6 +14,7 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.get('/cutiepie', function (req, res) {
     console.log(req.params);
 
@@ -33,22 +35,25 @@ app.get('/cutiepie', function (req, res) {
 app.get('/puppies', function (req, res) {
     console.log(req.params);
 
-    con.query("select Kommentti from Komentit where avain=1" , function (err, result, fields) {
-        if (err) throw err;
-        let results = [];
-        if (result.length){
-            for (var i = 0; i < result.length; i++){
-                results.push(result[i]);
-            }
+    var q = url.parse(req.url, true).query;
+    var avainID = q.Avain;
+    var sql = "SELECT Kommentti " + "FROM Komentit " +  "WHERE Avain=?";
+
+    console.log(q.Avain);
+
+    con.query (sql, [avainID], function(err, result) {
+        if (err)
+            throw (err);
+        else{
             console.log(result);
-        }
-        //sends the HTTP response
-        res.send(results);
-    })
+
+            res.send(JSON.stringify(result));
+
+        }});
 });
 
 app.post('/postphoto', function(req, res) {
-//app.post('/postphoto/:descr/:animal/:linkki', function(req, res) {
+
     console.log(req);
     console.log(res);
     console.log("body: ");

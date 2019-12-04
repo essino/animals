@@ -12,21 +12,24 @@
     <script src="../../js/frontscript.js"></script>
   </head>
   <h1><a href="#front">Cute animal pics</a></h1>
+
   <nav>
     <ul>
       <li><a href="#add">Add a cute animal pic</a></li>
-      <li><a href="#look">Look at cute animal pics</a></li>
+      <li><a href="#show">Look at cute animal pics</a></li>
+
     </ul>
   </nav>
+
+
   <main>
       <div id="frontPage">
-        <p>Tähän tulee logo</p>
-
+          <p>Tähän tulee logo</p>
       </div>
 
       <div id="addPage">
         <div id="description">
-          Desccribe your cute animal: <select name="description"/>
+          Describe your cute animal: <select name="description"/>
           <option value="item1">Supercute</option>
           <option value="item2">Adorable</option>
           <option value="item3">Lovely</option></select>
@@ -41,35 +44,49 @@
       </div>
 
       <div id="showPage">
-        <button type="button" onclick="searchDatabase()">Hae kuvat</button>
-        <div id="results"></div>
+          <button type="button" onclick="searchDatabase()">Hae kuvat</button>
+          <div id="Comments">
+              <section>
+                  <div id="bigPicturePage">Sektio</div>
+              </section>
+                  <div id="CommentsFromDatabase"></div>
+                  <p>Tähän tulee iso kuva ja kommentteja</p>
+
+
+
+          </div>
+          <div id="results"></div>
+
       </div>
 
-      <div id="commentPage"></div>
+
 
   </main>
 
   <script>
 
-    var json;
+    var json = null;
 
     if (window.location.hash == '#front' || json === null) {
       document.getElementById('addPage').style.display = 'none';
       document.getElementById('showPage').style.display = 'none';
-      document.getElementById('commentPage').style.display = 'none';
+      //document.getElementById('Comments').style.display = 'none';
+
     } else if (window.location.hash == '#add'){
       document.getElementById('frontPage').style.display = 'none';
       document.getElementById('showPage').style.display = 'none';
-      document.getElementById('commentPage').style.display = 'none';
+      //document.getElementById('Comments').style.display = 'none';
+
     } else if (window.location.hash == '#show') {
       document.getElementById('frontPage').style.display = 'none';
       document.getElementById('addPage').style.display = 'none';
-      document.getElementById('commentPage').style.display = 'none';
-    } else {
-      document.getElementById('frontPage').style.display = 'none';
-      document.getElementById('addPage').style.display = 'none';
-      document.getElementById('showPage').style.display = 'none';
+      //document.getElementById('Comments').style.display = 'none';
     }
+    /*else if (window.location.hash == '#comment') {
+        document.getElementById('frontPage').style.display = 'none';
+        document.getElementById('addPage').style.display = 'none';
+        document.getElementById('showPage').style.display = 'none';
+    }*/
 
     document.querySelector('nav > ul > li:nth-child(1)').onclick = function() {
       console.log('first link clicked');
@@ -77,97 +94,183 @@
       document.getElementById('addPage').style.display = 'block';
       document.getElementById('frontPage').style.display = 'none';
       document.getElementById('showPage').style.display = 'none';
-      document.getElementById('commentPage').style.display = 'none';
+      //document.getElementById('Comments').style.display = 'none';
+
     };
 
     document.querySelector('nav > ul > li:nth-child(2)').onclick = function() {
       console.log('second link clicked');
       document.getElementById('showPage').style.display = 'block';
       document.getElementById('addPage').style.display = 'none';
-      document.getElementById('showPage').style.display = 'none';
-      document.getElementById('commentPage').style.display = 'none';
-
+      document.getElementById('frontPage').style.display = 'none';
+      //document.getElementById('Comments').style.display = 'none';
       searchDatabase();
     };
 
+    document.querySelector('h1').onclick = function(){
+        console.log("heading1 clicked");
+        document.getElementById('frontPage').style.display = 'block';
+        document.getElementById('addPage').style.display = 'none';
+        document.getElementById('showPage').style.display = 'none';
+        //document.getElementById('Comments').style.display = 'none';
+    }
 
-    function searchDatabase() {
-      console.log("Painoit nappia");
-      var number = new XMLHttpRequest();
-      number.onreadystatechange = function() {
-        if (number.readyState == 4 && number.status == 200) {
-          json = JSON.parse(number.responseText);
-          var lenght = 0;
-          for (var key in json) {
-            if (json.hasOwnProperty(key)) {
-              lenght++;
-            }
-          }
-          var key=1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
-          if (lenght > 0) {
-            console.log(json[0].id);
-            console.log(json[0].linkki);
-            var divElement = document.getElementById("results");
-            divElement.innerText = "";
-            var i;
-            //Haetaan tietokannasta tiedot ja lisätään kuva, läpinäkyvän kuvan päälle
-            for (i in json) {
-              var unOnrder = document.createElement("ul");
-              divElement.appendChild(unOnrder);
-              var listElement = document.createElement("li");
-              var pic = json[i].linkki;
-              var key = json[i].id;
-              console.log(json[i].linkki);
-              console.log(json[i].id);
-              makePicture(pic,key);
-              //let img = document.getElementById("image");
-              //img.setAttribute("scr", json[i].linkki);
-              //listElement.innerHTML = pic;
-              //unOnrder.appendChild(listElement);
-              //console.log("Bonus logi");
-            }
-          }
+    document.querySelector('section > div').onclick = function () {
+        console.log("image cliccked");
+        document.getElementById('Comments').style.display = 'block';
+        document.getElementById('addPage').style.display = 'none';
+        document.getElementById('showPage').style.display = 'none';
+        document.getElementById('frontPage').style.display = 'none';
+    }
+
+        function searchDatabase() {
+            console.log("Painoit nappia");
+            var number = new XMLHttpRequest();
+            number.onreadystatechange = function () {
+                if (number.readyState == 4 && number.status == 200) {
+                    json = JSON.parse(number.responseText);
+                    var lenght = 0;
+                    for (var key in json) {
+                        if (json.hasOwnProperty(key)) {
+                            lenght++;
+                        }
+                    }
+                    var key = 1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
+                    if (lenght > 0) {
+                        console.log(json[0].id);
+                        console.log(json[0].linkki);
+                        var divElement = document.getElementById("results");
+                        divElement.innerText = "";
+                        var i;
+                        //Haetaan tietokannasta tiedot ja lisätään kuva, läpinäkyvän kuvan päälle
+                        for (i in json) {
+                            var unOnrder = document.createElement("ul");
+                            divElement.appendChild(unOnrder);
+                            var listElement = document.createElement("li");
+                            var pic = json[i].linkki;
+                            var key = json[i].id;
+                            console.log(json[i].linkki);
+                            console.log(json[i].id);
+                            makePicture(pic, key);
+                            //let img = document.getElementById("image");
+                            //img.setAttribute("scr", json[i].linkki);
+                            //listElement.innerHTML = pic;
+                            //unOnrder.appendChild(listElement);
+                            //console.log("Bonus logi");
+                        }
+                    }
+                }
+            };
+            number.open("GET", "http://localhost:8081/cutiepie");
+            number.send();
         }
-      };
-      number.open("GET", "http://localhost:8081/cutiepie");
-      number.send();
-    }
-    //Lisää läpinäkyvän kuvan sivulle
-    function makePicture(pic,key) {
-      var link = document.createElement("a");
-      link.href = "page.html";
-      var x = document.createElement("img");
-      x.setAttribute("src", pic);
-      x.setAttribute("id", key);
-      //x.setAttribute("width", "200");
-      x.setAttribute("height", "200");
-      //x.setAttribute("href", "page.html");
-      link.appendChild(x);
-      document.body.appendChild(link);
-      console.log("Kuva luotu!");
-    }
 
-      function addPhoto() {
-        var xhttp = new XMLHttpRequest();
-        var data = {};
-        //data.kuvaus = document.getElementById('description');
-        data.kuvaus = document.getElementById('description').value;
-        data.elain = document.getElementById('animal').value;
-        data.linkki = document.getElementById('link').value;
-        console.log(data.elain);
-        console.log("data: "+ data);
-        var json1 =JSON.stringify(data);
-        console.log("json:" + json1);
+        function searchDatabase2(key) {
+            console.log("Painoit kommenttejen haku nappia");
+            var animalNumber = parseInt(key);
+            console.log(animalNumber);
+            var number = new XMLHttpRequest();
+            number.onreadystatechange = function () {
+                if (number.readyState == 4 && number.status == 200) {
+                    json = JSON.parse(number.responseText);
+                    var lenght = 0;
+                    for (var key in json) {
+                        if (json.hasOwnProperty(key)) {
+                            lenght++;
+                        }
+                    }
+                    var key;
+                    if (lenght > 0) {
+                        console.log(json[0].Kommentti);
+                        var divElement = document.getElementById("CommentsFromDatabase");
+                        divElement.innerText = "";
+                        var i;
+                        for (i in json) {
+                            var unOnrder = document.createElement("ul");
+                            divElement.appendChild(unOnrder);
+                            var listElement = document.createElement("li");
+                            var comment = json[i].Kommentti;
+                            console.log(json[i].Kommentti);
+                            showComment(comment);
+                            listElement.innerHTML = comment;
+                            unOnrder.appendChild(listElement);
+                        }
+                    }
+                }
+            };
+            number.open("GET", "http://localhost:8081/puppies?Avain=" + animalNumber); //Tämä osoite on väärin, mutta miten?
+            number.send();
+        }
 
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            console.log("Responsetext: " + xhttp.responseText);
-          }
+
+        //Lisää läpinäkyvän kuvan sivulle
+        function makePicture(pic, key) {
+            var link = document.createElement("a");
+            //link.href = "page.html";
+            var x = document.createElement("img");
+            x.setAttribute("src", pic);
+            x.setAttribute("id", key);
+            //x.setAttribute("width", "200");
+            x.setAttribute("height", "200");
+
+            //essi kokeilee kommenttielementtijuttua
+            link.setAttribute("href", "#comment");
+            //sektio näkyy, se saatava pois; pitääkö laittaa johonkin muuhun kohtaan sektion poisto
+
+
+            x.setAttribute("onclick", "bigPicture(" + key + " );");
+            //x.setAttribute("onclick", "showComment("+key+" );");
+            //x.onclick = bigPicture(key);
+            //x.setAttribute("href", "page.html");
+            link.appendChild(x);
+            let resultselement = document.getElementById('results');
+            resultselement.appendChild(link);
+            console.log("Kuva luotu!");
+            console.log(key);
+            console.log(pic);
+        }
+
+        function showComment(comment) {
+            var link2 = document.createElement("b");
+            console.log(comment);
+            var y = document.createElement("ul");
+            y.setAttribute("text", comment);
+            link2.appendChild(y);
+            document.body.appendChild(link2);
+        }
+
+        function bigPicture(key) {
+            //console.log("Täällä on kuva:"+pic);
+            console.log("Kohta tapahtuu!" + key);
+            console.log("Komentti luotu");
+            searchDatabase2(key);
+            var bigPic = document.getElementById("bigPicturePage");
+            //var text = document.createTextNode(key); //Tekee tekstille elementin
+            //bigPic.appendChild(text); //Tulostaa kuvan id:n elementtiin
+        }
+
+
+        function addPhoto() {
+            var xhttp = new XMLHttpRequest();
+            var data = {};
+            //data.kuvaus = document.getElementById('description');
+            data.kuvaus = document.getElementById('description').value;
+            data.elain = document.getElementById('animal').value;
+            data.linkki = document.getElementById('link').value;
+            console.log(data.elain);
+            console.log("data: " + data);
+            var json1 = JSON.stringify(data);
+            console.log("json:" + json1);
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("Responsetext: " + xhttp.responseText);
+                }
+            };
+            xhttp.open("POST", "http://localhost:8081/postphoto/", true);
+            xhttp.setRequestHeader('Content-type', 'application/json');
+            xhttp.send(json1);
         };
-        xhttp.open("POST", "http://localhost:8081/postphoto/", true);
-        xhttp.setRequestHeader('Content-type', 'application/json');
-        xhttp.send(json1);
-      };
 
     </script>
     <!-- built files will be auto injected -->
