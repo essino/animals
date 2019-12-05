@@ -30,18 +30,12 @@
 
 <script>
   var json;
-
-
-
   function searchDatabase() {
-
     console.log("Painoit nappia");
-
     var number = new XMLHttpRequest();
     number.onreadystatechange = function() {
       if (number.readyState == 4 && number.status == 200) {
         json = JSON.parse(number.responseText);
-
         var lenght = 0;
         for (var key in json) {
           if (json.hasOwnProperty(key)) {
@@ -49,32 +43,22 @@
           }
         }
         var key=1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
-
         if (lenght > 0) {
           console.log(json[0].id);
           console.log(json[0].linkki);
-
-
           var divElement = document.getElementById("results");
           divElement.innerText = "";
           var i;
-
           //Haetaan tietokannasta tiedot ja lisätään kuva, läpinäkyvän kuvan päälle
           for (i in json) {
-
             var unOnrder = document.createElement("ul");
             divElement.appendChild(unOnrder);
-
             var listElement = document.createElement("li");
-
             var pic = json[i].linkki;
             var key = json[i].id;
-
             console.log(json[i].linkki);
             console.log(json[i].id);
-
             makePicture(pic,key);
-
             //let img = document.getElementById("image");
             //img.setAttribute("scr", json[i].linkki);
             //listElement.innerHTML = pic;
@@ -82,27 +66,17 @@
             //console.log("Bonus logi");
           }
         }
-
       }
     };
-
     number.open("GET", "http://localhost:8081/cutiepie");
     number.send();
   }
-
   function searchDatabase2(key) {
-
-
-
     var animalNumber =  parseInt(key);
-
-
-
     var number = new XMLHttpRequest();
     number.onreadystatechange = function() {
       if (number.readyState == 4 && number.status == 200) {
         json = JSON.parse(number.responseText);
-
         var lenght = 0;
         for (var key in json) {
           if (json.hasOwnProperty(key)) {
@@ -111,51 +85,42 @@
         }
         var key;
 
-        if (lenght > 0) {
+        var divElement = document.getElementById("bigPicturePage");
+        divElement.innerText = "";
 
+        if (lenght > 0) {
           console.log(json[0].Kommentti);
 
-
-          var divElement = document.getElementById("bigPicturePage");
-          divElement.innerText = "";
           var i;
-
-
           for (i in json) {
             var unOnrder = document.createElement("ul");
             divElement.appendChild(unOnrder);
             var listElement = document.createElement("li");
             var comment = json[i].Kommentti;
             console.log(json[i].Kommentti);
-            showComment(comment);
-
+            //showComment(comment);
             listElement.innerHTML = comment;
             unOnrder.appendChild(listElement);
-
-
           }
+        } else {
+          var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
+          divElement.appendChild(unOnrder);
+          var listElement2 = document.createElement("li");
+          var comment = "Ei yhtään kommentteja! Olisikko sinulla jotain sanottavaa tästä söpöläisestä?";
+          listElement2.innerHTML = comment;
+          unOnrder.appendChild(listElement2);
         }
-
       }
     };
-
     number.open("GET", "http://localhost:8081/puppies?Avain="+animalNumber);
     number.send();
   } //Hakee tietoknnasta kommentit
-
   function searchDatabase3(key) { //Hakee tietoknnasta valitun kuvan isona
-
-
-
     var animalNumber =  parseInt(key); //Muuttaa string muotoisen key:n intiksi.
-
-
-
     var number = new XMLHttpRequest();
     number.onreadystatechange = function() {
       if (number.readyState == 4 && number.status == 200) {
         json = JSON.parse(number.responseText);
-
         var lenght = 0;
         for (var key in json) {
           if (json.hasOwnProperty(key)) {
@@ -163,45 +128,29 @@
           }
         }
         var key;
-
         if (lenght > 0) {
-
           //console.log(json[0].Linkki);
-
-
           var divElement = document.getElementById("realBigPicturePic");
           divElement.innerText = "";
           var i;
-
-
           for (i in json) {
             var unOnrder = document.createElement("ul");
             divElement.appendChild(unOnrder);
             var listElement = document.createElement("li");
             var pic = json[i].Linkki;
             //console.log(json[i].Linkki);
-
             makeBigPicture(pic);
-
-
           }
         }
-
       }
     };
-
-    number.open("GET", "http://localhost:8081/animalbabys?id="+animalNumber); //Tämä osoite on väärin, mutta miten?
+    number.open("GET", "http://localhost:8081/animalbabys?id="+animalNumber);
     number.send();
   }
-
-
   //Lisää läpinäkyvän kuvan sivulle
   function makePicture(pic,key) {
-
     var link = document.createElement("a");
-
     //link.href = "page.html";
-
     var x = document.createElement("img");
     x.setAttribute("src", pic);
     x.setAttribute("id", key);
@@ -212,72 +161,41 @@
 //x.onclick = bigPicture(key);
     //x.setAttribute("href", "page.html");
     link.appendChild(x);
-
     document.body.appendChild(link);
-
-
-
-
   }
+  /* function showComment(comment) { //searchDatabase2 kutsuu tätä funktiota, tämä valmistaa paikat tietokantakyselyn tuloksille
+       var link2 = document.createElement("b");
+       console.log(comment);
+       var y = document.createElement("ul");
 
-  function showComment(comment) { //searchDatabase2 kutsuu tätä funktiota, tämä valmistaa paikat tietokantakyselyn tuloksille
-    var link2 = document.createElement("b");
+       y.setAttribute("text",comment);
+       link2.appendChild(y);
 
-    console.log(comment);
-
-
-
-    var y = document.createElement("ul");
-    y.setAttribute("text", comment);
-    //if(comment==NULL) {   //Tähän voisi yrittää miettiä sitä kommenttejen näkymistä
-    //  document.body.removeChild(b);
-   // } else {
-
-      link2.appendChild(y);
-      document.body.appendChild(link2);
-      console.log("Tuleeko tästä kommentteja?");
-    //}
-
-
-  }
-
+       document.body.appendChild(link2);
+       console.log("Tuleeko tästä kommentteja?");
+       //}
+   } */
   function bigPicture(key) { //Kutsuu tietokantafunktiota ja lisää kommentit niille luotuun elementtiin
-
-
-
     searchDatabase2(key);
     realBigPicture(key); //Kutsuu funktiota jolla tehdään valittu kuva isona.
-
-
     var bigPic = document.getElementById("bigPicturePage"); //luo paikat kommenteille bigPicturePage elementtiin
   }
-
   function realBigPicture(key) {
     console.log("Kohta tulee kuva "+key);
-
     searchDatabase3(key);
-
     var realBigPic = document.getElementById("realBigPicturePage");
   }
-
   function makeBigPicture(pic) {
     var link = document.createElement("a");
     let noPic = document.getElementById("realBigPicturePic");
     var x = document.createElement("img");
     x.setAttribute("src", pic);
     x.setAttribute("height", "400");
-
     link.appendChild(x);
-
     noPic.appendChild(link);
-
     console.log("Iso kuva luotu!");
-
     console.log(pic);
   }
-
-
-
   /*
     function addPhoto() {
           var xhttp = new XMLHttpRequest();
@@ -290,7 +208,6 @@
           console.log("data: "+ data);
           var json1 =JSON.stringify(data);
           console.log("json:" + json1);
-
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
               console.log("Responsetext: " + xhttp.responseText);
@@ -300,11 +217,7 @@
           xhttp.setRequestHeader('Content-type', 'application/json');
           xhttp.send(json1);
         };
-
-
-
    */
-
 </script>
 
 
