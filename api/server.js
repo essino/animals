@@ -52,6 +52,26 @@ app.get('/puppies', function (req, res) {
         }});
 });
 
+app.get('/animalbabys', function (req, res) {
+    console.log(req.params);
+
+    var q = url.parse(req.url, true).query;
+    var id = q.id;
+    var sql = "SELECT Linkki " + "FROM Elainkuvia " +  "WHERE id=?";
+
+    console.log(q.id);
+
+    con.query (sql, [id], function(err, result) {
+        if (err)
+            throw (err);
+        else{
+            console.log(result);
+
+            res.send(JSON.stringify(result));
+
+        }});
+});
+
 app.post('/postphoto', function(req, res) {
 
     console.log(req);
