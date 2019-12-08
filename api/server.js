@@ -84,7 +84,24 @@ app.post('/postphoto', function(req, res) {
     //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
     con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.body.kuvaus+ "', '"+req.body.elain+"', '"+req.body.linkki+"');", function (err, result, fields) {
         if (err) throw err;
-    })
+    });
+    res.send(req.body);
+});
+
+app.post('/postcomment', function(req, res) {
+
+    console.log(req);
+    console.log(res);
+    console.log("body: ");
+    console.log(req.body);
+    console.log("params:");
+    console.log(req.params);
+    console.log("key: " + req.body.key);
+    console.log("comment: " + req.body.comment);
+    //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
+    con.query("INSERT INTO Komentit (Kommentti, Avain) VALUES ('"+req.body.comment+ "', '"+req.body.key+"');", function (err, result, fields) {
+        if (err) throw err;
+    });
     res.send(req.body);
 });
 
