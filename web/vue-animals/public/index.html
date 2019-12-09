@@ -386,8 +386,10 @@
                console.log("Responsetext: " + xhttp.responseText);
 
                var commentresponse = document.getElementById("commentresponse");
-               commentresponse.innerHTML = "You added a cute comment!"
+               commentresponse.innerHTML = "You added a cute comment!";
+               console.log("Kommentit toimivatko ne?");
                searchDatabase2(key);
+               console.log("Kommentit toimivat ne!");
            }
        };
        xhttp.open("POST", "http://localhost:8081/postcomment/", true);
@@ -397,7 +399,7 @@
        //reset values
        comment.value = "";
 
-       //show new comment
+
 
    }
     </script>
