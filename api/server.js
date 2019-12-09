@@ -81,11 +81,20 @@ app.post('/postphoto', function(req, res) {
   console.log("params:");
   console.log(req.params);
   console.log("kuvaus: " + req.body.Kuvaus);
+
+  //uusi kokeilu
+  // var q = url.parse(req.url, true).query;
+  // var id = q.id;
+
+
   //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
-  con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.body.kuvaus+ "', '"+req.body.elain+"', '"+req.body.linkki+"');", function (err, result, fields) {
+  con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES (?, ?, ?);",[req.body.kuvaus, req.body.elain, req.body.linkki], function (err, result, fields) {
     if (err) throw err;
   })
   res.send(req.body);
+
+
+
 });
 
 app.post('/postcomment', function(req, res) {
