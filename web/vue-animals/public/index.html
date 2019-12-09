@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico"/>
-      <link href="animals.css" type="text/css" rel="stylesheet" />
+    <link href="animals.css" type="text/css" rel="stylesheet" />
 
     <title>Cute animals!</title>
 
-  </head>
-  <body>
-    <div>
-        <h1><a href="#front">Cute animal pics</a></h1>
+</head>
+<body>
+<div>
+    <h1><a href="#front">Cute animal pics</a></h1>
 
+</div>
+<nav>
+    <ul>
+        <li><a href="#add">Add a cute animal pic</a></li>
+        <li><a href="#show">Look at cute animal pics</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div id="frontPage">
+        <img id="miska" width="500px" src="miskalogo5.png" alt="Logo"/>
     </div>
-    <nav>
-        <ul>
-            <li><a href="#add">Add a cute animal pic</a></li>
-            <li><a href="#show">Look at cute animal pics</a></li>
-        </ul>
-    </nav>
 
-    <main>
-      <div id="frontPage">
-          <img id="miska" width="500px" src="miskalogo5.png" alt="Logo"/>
-      </div>
-
-      <div id="addPage">
+    <div id="addPage">
         <div>Describe your cute animal:
             <label for="description">
                 <select id="description">
@@ -48,47 +48,47 @@
                 Add your link. <input id="link" placeholder="Link" type="text"/>
             </label>
         </div>
-          <input type="submit" value="Submit" onclick="addPhoto()"/>
-          <div id="photoresponse"></div>
-      </div>
+        <input type="submit" value="Submit" onclick="addPhoto()"/>
+        <div id="photoresponse"></div>
+    </div>
 
-      <div id="showPage">
-          <button type="button" onclick="searchDatabase()">Show cute animal pics.</button>
-          <div id="results"></div>
-      </div>
+    <div id="showPage">
+        <button type="button" onclick="searchDatabase()">Show cute animal pics.</button>
+        <div id="results"></div>
+    </div>
 
-      <div id="Comments">
-          <div id="realBigPicturePic"></div>
-          <div id="bigPicturePage"></div>
+    <div id="Comments">
+        <div id="realBigPicturePic"></div>
+        <div id="bigPicturePage"></div>
 
 
-          <div id="newcomment">
-              Comment: <input type="text" id="comment" name="comment" pattern="" placeholder="Comment here!" />
-          </div>
-          <button type="button" id="commentbutton">Post your comment!</button>
-          <div id="commentresponse"></div>
-      </div>
+        <div id="newcomment">
+            Comment: <input type="text" id="comment" name="comment" pattern="" placeholder="Comment here!" />
+        </div>
+        <button type="button" id="commentbutton">Post your comment!</button>
+        <div id="commentresponse"></div>
+    </div>
 
-  </main>
+</main>
 
-  <script>
+<script>
 
     var json = null;
 
     if (window.location.hash === '#front' || json === null) {
-      document.getElementById('addPage').style.display = 'none';
-      document.getElementById('showPage').style.display = 'none';
-      document.getElementById('Comments').style.display = 'none';
+        document.getElementById('addPage').style.display = 'none';
+        document.getElementById('showPage').style.display = 'none';
+        document.getElementById('Comments').style.display = 'none';
     }
     else if (window.location.hash === '#add'){
-      document.getElementById('frontPage').style.display = 'none';
-      document.getElementById('showPage').style.display = 'none';
-      document.getElementById('Comments').style.display = 'none';
+        document.getElementById('frontPage').style.display = 'none';
+        document.getElementById('showPage').style.display = 'none';
+        document.getElementById('Comments').style.display = 'none';
     }
     else if (window.location.hash === '#show') {
-      document.getElementById('frontPage').style.display = 'none';
-      document.getElementById('addPage').style.display = 'none';
-      document.getElementById('Comments').style.display = 'none';
+        document.getElementById('frontPage').style.display = 'none';
+        document.getElementById('addPage').style.display = 'none';
+        document.getElementById('Comments').style.display = 'none';
     }
     else if (window.location.hash === '#comment') {
         document.getElementById('frontPage').style.display = 'none';
@@ -97,20 +97,20 @@
     }
 
     document.querySelector('nav > ul > li:nth-child(1)').onclick = function() {
-      console.log('first link clicked');
-      document.getElementById('addPage').style.display = 'block';
-      document.getElementById('frontPage').style.display = 'none';
-      document.getElementById('showPage').style.display = 'none';
-      document.getElementById('Comments').style.display = 'none';
+        console.log('first link clicked');
+        document.getElementById('addPage').style.display = 'block';
+        document.getElementById('frontPage').style.display = 'none';
+        document.getElementById('showPage').style.display = 'none';
+        document.getElementById('Comments').style.display = 'none';
     };
 
     document.querySelector('nav > ul > li:nth-child(2)').onclick = function() {
-      console.log('second link clicked');
-      document.getElementById('showPage').style.display = 'block';
-      document.getElementById('addPage').style.display = 'none';
-      document.getElementById('frontPage').style.display = 'none';
-      document.getElementById('Comments').style.display = 'none';
-      searchDatabase();
+        console.log('second link clicked');
+        document.getElementById('showPage').style.display = 'block';
+        document.getElementById('addPage').style.display = 'none';
+        document.getElementById('frontPage').style.display = 'none';
+        document.getElementById('Comments').style.display = 'none';
+        searchDatabase();
     };
 
     document.querySelector('h1').onclick = function(){
@@ -256,35 +256,35 @@
         commenttemp.setAttribute("onclick", "addComment("+ key +")");
     }
 
-        //Lisää läpinäkyvän kuvan sivulle
-        function makePicture(pic, key) {
+    //Lisää läpinäkyvän kuvan sivulle
+    function makePicture(pic, key) {
 
-            var link = document.createElement("a");
+        var link = document.createElement("a");
 
-            //essin lisäys
-            link.setAttribute("class", "photovar");
+        //essin lisäys
+        link.setAttribute("class", "photovar");
 
-            //link.href = "page.html";
-            var x = document.createElement("img");
-            x.setAttribute("src", pic);
-            x.setAttribute("id", key);
-            //x.setAttribute("width", "200");
-            x.setAttribute("height", "200");
+        //link.href = "page.html";
+        var x = document.createElement("img");
+        x.setAttribute("src", pic);
+        x.setAttribute("id", key);
+        //x.setAttribute("width", "200");
+        x.setAttribute("height", "200");
 
-            x.setAttribute("onclick", "bigPicture(" + key + " );");
-            //x.setAttribute("onclick", "showComment("+key+" );");
-            //x.onclick = bigPicture(key);
-            //x.setAttribute("href", "page.html");
-            link.appendChild(x);
+        x.setAttribute("onclick", "bigPicture(" + key + " );");
+        //x.setAttribute("onclick", "showComment("+key+" );");
+        //x.onclick = bigPicture(key);
+        //x.setAttribute("href", "page.html");
+        link.appendChild(x);
 
-            //muutos: jotta menee oikeaan elementtiin
-            let resultselement = document.getElementById('results');
-            resultselement.appendChild(link);
+        //muutos: jotta menee oikeaan elementtiin
+        let resultselement = document.getElementById('results');
+        resultselement.appendChild(link);
 
-            console.log("Kuva luotu!");
-            console.log(key);
-            console.log(pic);
-        }
+        console.log("Kuva luotu!");
+        console.log(key);
+        console.log(pic);
+    }
 
     /*function showComment(comment) {
        var link2 = document.createElement("b");
@@ -295,115 +295,114 @@
        document.body.appendChild(link2);
    }*/
 
-   function bigPicture(key) { //Kutsuu tietokantafunktiota ja lisää kommentit niille luotuun elementtiin
+    function bigPicture(key) { //Kutsuu tietokantafunktiota ja lisää kommentit niille luotuun elementtiin
 
-       //essi kokeilee kommenttielementtijuttua
-       var photovar = document.getElementsByClassName("photovar");
-       var i;
-       for (i = 0; i < photovar.length; i++) {
-           photovar[i].setAttribute("href", "#comment");
-       }
-       showCommentsElement();
+        //essi kokeilee kommenttielementtijuttua
+        var photovar = document.getElementsByClassName("photovar");
+        var i;
+        for (i = 0; i < photovar.length; i++) {
+            photovar[i].setAttribute("href", "#comment");
+        }
+        showCommentsElement();
 
-       searchDatabase2(key);
-       realBigPicture(key); //Kutsuu funktiota jolla tehdään valittu kuva isona.
-       var bigPic = document.getElementById("bigPicturePage");
-       //var text = document.createTextNode(key); //Tekee tekstille elementin
-       //bigPic.appendChild(text); //Tulostaa kuvan id:n elementtiin
-   }
+        searchDatabase2(key);
+        realBigPicture(key); //Kutsuu funktiota jolla tehdään valittu kuva isona.
+        var bigPic = document.getElementById("bigPicturePage");
+        //var text = document.createTextNode(key); //Tekee tekstille elementin
+        //bigPic.appendChild(text); //Tulostaa kuvan id:n elementtiin
+    }
 
-  function realBigPicture(key) {
-      console.log("Kohta tulee kuva "+key);
-      searchDatabase3(key);
-      var realBigPic = document.getElementById("realBigPicturePage");
-  }
-  function makeBigPicture(pic) {
-      var link = document.createElement("a");
-      let noPic = document.getElementById("realBigPicturePic");
-      var x = document.createElement("img");
-      x.setAttribute("src", pic);
-      x.setAttribute("height", "400");
-      link.appendChild(x);
-      noPic.appendChild(link);
-      console.log("Iso kuva luotu!");
-      console.log(pic);
-  }
+    function realBigPicture(key) {
+        console.log("Kohta tulee kuva "+key);
+        searchDatabase3(key);
+        var realBigPic = document.getElementById("realBigPicturePage");
+    }
+    function makeBigPicture(pic) {
+        var link = document.createElement("a");
+        let noPic = document.getElementById("realBigPicturePic");
+        var x = document.createElement("img");
+        x.setAttribute("src", pic);
+        x.setAttribute("height", "400");
+        link.appendChild(x);
+        noPic.appendChild(link);
+        console.log("Iso kuva luotu!");
+        console.log(pic);
+    }
 
 
-   function addPhoto() {
-       var xhttp = new XMLHttpRequest();
-       var data = {};
-       //data.kuvaus = document.getElementById('description');
-       var e = document.getElementById("description");
-       data.kuvaus = e.options[e.selectedIndex].text;
+    function addPhoto() {
+        var xhttp = new XMLHttpRequest();
+        var data = {};
+        //data.kuvaus = document.getElementById('description');
+        var e = document.getElementById("description");
+        data.kuvaus = e.options[e.selectedIndex].text;
 
-       console.log("data.kuvaus: " +data.kuvaus);
-       var elain = document.getElementById('animal');
-       data.elain = elain.value;
-       var linkki = document.getElementById('link');
-       data.linkki = linkki.value;
-       console.log(data.elain);
-       console.log("data: " + data);
-       var json1 = JSON.stringify(data);
-       console.log("json:" + json1);
+        console.log("data.kuvaus: " +data.kuvaus);
+        var elain = document.getElementById('animal');
+        data.elain = elain.value;
+        var linkki = document.getElementById('link');
+        data.linkki = linkki.value;
+        console.log(data.elain);
+        console.log("data: " + data);
+        var json1 = JSON.stringify(data);
+        console.log("json:" + json1);
 
-       xhttp.onreadystatechange = function () {
-           if (this.readyState === 4 && this.status === 200) {
-               console.log("Responsetext: " + xhttp.responseText);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                console.log("Responsetext: " + xhttp.responseText);
 
-               var photoresponse = document.getElementById("photoresponse");
+                var photoresponse = document.getElementById("photoresponse");
                 photoresponse.innerHTML = "You have added a cute pic!"
-           }
-       };
-       xhttp.open("POST", "http://localhost:8081/postphoto/", true);
-       xhttp.setRequestHeader('Content-type', 'application/json');
-       xhttp.send(json1);
+            }
+        };
+        xhttp.open("POST", "http://localhost:8081/postphoto/", true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send(json1);
 
-       //reset values
+        //reset values
         elain.value = "";
         linkki.value = "";
 
         document.getElementById("description").selectedIndex = 0;
-   };
+    };
 
-   function addComment(key){
+    function addComment(key){
         console.log("sisällä addcommentissa ja kuva nro " + key);
 
-       var xhttp = new XMLHttpRequest();
-       var data1 = {};
+        var xhttp = new XMLHttpRequest();
+        var data1 = {};
 
-       var comment = document.getElementById('comment');
-       data1.comment = comment.value;
+        var comment = document.getElementById('comment');
+        data1.comment = comment.value;
 
-       data1.key = key;
-       console.log("data1.key = " + data1.key);
-       console.log("data: " + data1);
-       var json2 = JSON.stringify(data1);
-       console.log("json:" + json2);
+        data1.key = key;
+        console.log("data1.key = " + data1.key);
+        console.log("data: " + data1);
+        var json2 = JSON.stringify(data1);
+        console.log("json:" + json2);
 
-       xhttp.onreadystatechange = function () {
-           if (this.readyState === 4 && this.status === 200) {
-               console.log("Responsetext: " + xhttp.responseText);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                console.log("Responsetext: " + xhttp.responseText);
 
-               var commentresponse = document.getElementById("commentresponse");
-               commentresponse.innerHTML = "You added a cute comment!";
-               console.log("Kommentit toimivatko ne?");
-               searchDatabase2(key);
-               console.log("Kommentit toimivat ne!");
-           }
-       };
-       xhttp.open("POST", "http://localhost:8081/postcomment/", true);
-       xhttp.setRequestHeader('Content-type', 'application/json');
-       xhttp.send(json2);
+                var commentresponse = document.getElementById("commentresponse");
+                commentresponse.innerHTML = "You added a cute comment!"
+                searchDatabase2(key);
+                console.log("kommenttien pitäisi toimia, jos tähän päästään");
+            }
+        };
+        xhttp.open("POST", "http://localhost:8081/postcomment/", true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send(json2);
 
-       //reset values
-       comment.value = "";
+        //reset values
+        comment.value = "";
 
+        //show new comment
 
-
-   }
-    </script>
-    <!-- built files will be auto injected -->
-  </body>
+    }
+</script>
+<!-- built files will be auto injected -->
+</body>
 </html>
 
