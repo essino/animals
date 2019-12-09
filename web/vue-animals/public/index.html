@@ -96,6 +96,10 @@
         document.getElementById('showPage').style.display = 'none';
     }
 
+    /**
+     * Shows only the elements necessary for adding a new picture onto the website.
+     * Hides the other elements in the main section of the DOM tree.
+     */
     document.querySelector('nav > ul > li:nth-child(1)').onclick = function() {
         console.log('first link clicked');
         document.getElementById('addPage').style.display = 'block';
@@ -104,6 +108,10 @@
         document.getElementById('Comments').style.display = 'none';
     };
 
+    /**
+     * Shows only the elements necessary for looking at pictures on the website.
+     * Hides the other elements in the main section of the DOM tree.
+     */
     document.querySelector('nav > ul > li:nth-child(2)').onclick = function() {
         console.log('second link clicked');
         document.getElementById('showPage').style.display = 'block';
@@ -113,6 +121,10 @@
         searchDatabase();
     };
 
+    /**
+     * Shows only the the logo and the nav section.
+     * Hides the other elements in the main section of the DOM tree.
+     */
     document.querySelector('h1').onclick = function(){
         console.log("heading1 clicked");
         document.getElementById('frontPage').style.display = 'block';
@@ -121,6 +133,10 @@
         document.getElementById('Comments').style.display = 'none';
     };
 
+    /**
+     * Shows only the elements necessary for making comments.
+     * Hides the other elements in the main section of the DOM tree.
+     */
     function showCommentsElement() {
         console.log("image clicked");
         document.getElementById('Comments').style.display = 'block';
@@ -129,6 +145,12 @@
         document.getElementById('frontPage').style.display = 'none';
     }
 
+    /**
+     * Creates an XMLHttpRequest.
+     * Gets the pictures' links from the database through the server and REST API.
+     * Organizes the links into a list and shows the pictures on the website.
+     *
+     */
     function searchDatabase() {
         console.log("Painoit nappia");
         var number = new XMLHttpRequest();
@@ -189,14 +211,16 @@
 
                 var divElement = document.getElementById("bigPicturePage");
                 divElement.innerText = "";
+                var unOnrder = document.createElement("ul");
+                divElement.appendChild(unOnrder);
 
                 if (lenght > 0) {
                     console.log(json[0].Kommentti);
 
+
                     var i;
                     for (i in json) {
-                        var unOnrder = document.createElement("ul");
-                        divElement.appendChild(unOnrder);
+
                         var listElement = document.createElement("li");
                         var comment = json[i].Kommentti;
                         console.log(json[i].Kommentti);
@@ -205,8 +229,8 @@
                         unOnrder.appendChild(listElement);
                     }
                 } else {
-                    var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
-                    divElement.appendChild(unOnrder);
+                    //var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
+                    //divElement.appendChild(unOnrder);
                     var listElement2 = document.createElement("li");
                     var comment = "Ei yhtään kommentteja! Olisikko sinulla jotain sanottavaa tästä söpöläisestä?";
                     listElement2.innerHTML = comment;
@@ -333,7 +357,6 @@
     function addPhoto() {
         var xhttp = new XMLHttpRequest();
         var data = {};
-        //data.kuvaus = document.getElementById('description');
         var e = document.getElementById("description");
         data.kuvaus = e.options[e.selectedIndex].text;
 
@@ -386,7 +409,9 @@
                 console.log("Responsetext: " + xhttp.responseText);
 
                 var commentresponse = document.getElementById("commentresponse");
-                commentresponse.innerHTML = "You added a cute comment!"
+                commentresponse.innerHTML = "You added a cute comment!";
+
+                //show new comment
                 searchDatabase2(key);
                 console.log("kommenttien pitäisi toimia, jos tähän päästään");
             }
@@ -398,7 +423,7 @@
         //reset values
         comment.value = "";
 
-        //show new comment
+
 
     }
 </script>

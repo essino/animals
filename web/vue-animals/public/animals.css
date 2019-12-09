@@ -1,13 +1,19 @@
 body {
     background-color: lightskyblue;
     text-align: center;
+    font-family: Arial, Verdana, sans-serif;
 }
 
 ul {
     list-style-type: none;
+    background: #3399ff;
+    padding: 20px;
 }
 
-
+ul li {
+    background: #cce5ff;
+    margin: 5px;
+}
 
 .photovar {
     cursor: pointer;
