@@ -129,6 +129,7 @@
         document.getElementById('frontPage').style.display = 'none';
     }
 
+    //**Haetaan tietoja kuvista tietokannasta
     function searchDatabase() {
         console.log("Painoit nappia");
         var number = new XMLHttpRequest();
@@ -142,28 +143,22 @@
                     }
                 }
                 key = 1; //i= kuvan id:n nimi, id on myös sama, kuin tietokannassa id
+              /**Loudaan elementti tuloksille*/
                 if (lenght > 0) {
                     console.log(json[0].id);
                     console.log(json[0].linkki);
                     var divElement = document.getElementById("results");
                     divElement.innerText = "";
                     var i;
-                    //Haetaan tietokannasta tiedot ja lisätään kuva, läpinäkyvän kuvan päälle
+
+                    /**Asetetaan tietoja kuvalle ja lähetetään ne funkitolle makePicture, mikä tekee sivulle kuvan*/
                     for (i in json) {
-                        //Jos nämä kaksi riviä ottaa pois kommenteista, kuvat saa allekkain helposti
-                        //var unOnrder = document.createElement("ul");
-                        //divElement.appendChild(unOnrder);
-                        //var listElement = document.createElement("li");
                         var pic = json[i].linkki;
                         key = json[i].id;
                         console.log(json[i].linkki);
                         console.log(json[i].id);
                         makePicture(pic, key);
-                        //let img = document.getElementById("image");
-                        //img.setAttribute("scr", json[i].linkki);
-                        //listElement.innerHTML = pic;
-                        //unOnrder.appendChild(listElement);
-                        //console.log("Bonus logi");
+
                     }
                 }
             }
@@ -172,6 +167,7 @@
         number.send();
     }
 
+    /**Haetaan kuvaan lisätyt kommentit tietokannasta tai haetaan kommentointiin kannusta kommentti jos kuvaa ei olla kommentointi*/
     function searchDatabase2(key) {
         var animalNumber = parseInt(key);
         console.log(animalNumber);
@@ -190,7 +186,7 @@
                 var divElement = document.getElementById("bigPicturePage");
                 divElement.innerText = "";
 
-                if (lenght > 0) {
+                if (lenght > 0) { /**Tutkitaan tuleeko tietokannasta ollenkaan tuloksia */
                     console.log(json[0].Kommentti);
 
                     var i;
@@ -208,17 +204,17 @@
                     var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
                     divElement.appendChild(unOnrder);
                     var listElement2 = document.createElement("li");
-                    var comment = "Ei yhtään kommentteja! Olisikko sinulla jotain sanottavaa tästä söpöläisestä?";
+                    var comment = "No comments! Do you have something to say about this cutie pie?";
                     listElement2.innerHTML = comment;
                     unOnrder.appendChild(listElement2);
                 }
             }
         };
-        number.open("GET", "http://localhost:8081/puppies?Avain=" + animalNumber); //Tämä osoite on väärin, mutta miten?
+        number.open("GET", "http://localhost:8081/puppies?Avain=" + animalNumber);
         number.send();
     }
-
-    function searchDatabase3(key) { //Hakee tietoknnasta valitun kuvan isona
+ /**Hakee tietoknnasta valitun kuvan isona*/
+    function searchDatabase3(key) {
         var animalNumber =  parseInt(key); //Muuttaa string muotoisen key:n intiksi.
         var number = new XMLHttpRequest();
         number.onreadystatechange = function() {
@@ -232,7 +228,7 @@
                 }
                 var key;
                 if (lenght > 0) {
-                    //console.log(json[0].Linkki);
+
 
                     var divElement = document.getElementById("realBigPicturePic");
                     divElement.innerText = "";
@@ -256,7 +252,7 @@
         commenttemp.setAttribute("onclick", "addComment("+ key +")");
     }
 
-    //Lisää läpinäkyvän kuvan sivulle
+    /**Lisää kuvat kuvaluetteloon sivulle*/
     function makePicture(pic, key) {
 
         var link = document.createElement("a");
@@ -268,13 +264,9 @@
         var x = document.createElement("img");
         x.setAttribute("src", pic);
         x.setAttribute("id", key);
-        //x.setAttribute("width", "200");
         x.setAttribute("height", "200");
 
         x.setAttribute("onclick", "bigPicture(" + key + " );");
-        //x.setAttribute("onclick", "showComment("+key+" );");
-        //x.onclick = bigPicture(key);
-        //x.setAttribute("href", "page.html");
         link.appendChild(x);
 
         //muutos: jotta menee oikeaan elementtiin
@@ -286,16 +278,8 @@
         console.log(pic);
     }
 
-    /*function showComment(comment) {
-       var link2 = document.createElement("b");
-       console.log(comment);
-       var y = document.createElement("ul");
-       y.setAttribute("text", comment);
-       link2.appendChild(y);
-       document.body.appendChild(link2);
-   }*/
-
-    function bigPicture(key) { //Kutsuu tietokantafunktiota ja lisää kommentit niille luotuun elementtiin
+/**Kutsuu tietokantafunktiota ja lisää kommentit niille luotuun elementtiin*/
+    function bigPicture(key) {
 
         //essi kokeilee kommenttielementtijuttua
         var photovar = document.getElementsByClassName("photovar");
@@ -306,17 +290,23 @@
         showCommentsElement();
 
         searchDatabase2(key);
-        realBigPicture(key); //Kutsuu funktiota jolla tehdään valittu kuva isona.
-        var bigPic = document.getElementById("bigPicturePage");
+        searchDatabase3(key); //Kutsuu funktiota jolla tehdään valittu kuva isona.
+        //var bigPic = document.getElementById("bigPicturePage");
+        //var realBigPic = document.getElementById("realBigPicturePage");
         //var text = document.createTextNode(key); //Tekee tekstille elementin
         //bigPic.appendChild(text); //Tulostaa kuvan id:n elementtiin
     }
 
+    /*Kutsuu tietokannasta ison kuvan hakua ja antaa tälle funktiolle avain arvon, jotta oikea kommentti löytyy
     function realBigPicture(key) {
         console.log("Kohta tulee kuva "+key);
         searchDatabase3(key);
-        var realBigPic = document.getElementById("realBigPicturePage");
+        //*Luo elementin mihin sijoittaa hakutuloksen
+
     }
+*/
+
+    //*Tekee
     function makeBigPicture(pic) {
         var link = document.createElement("a");
         let noPic = document.getElementById("realBigPicturePic");
@@ -341,29 +331,45 @@
         var elain = document.getElementById('animal');
         data.elain = elain.value;
         var linkki = document.getElementById('link');
-        data.linkki = linkki.value;
-        console.log(data.elain);
-        console.log("data: " + data);
-        var json1 = JSON.stringify(data);
-        console.log("json:" + json1);
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                console.log("Responsetext: " + xhttp.responseText);
 
-                var photoresponse = document.getElementById("photoresponse");
-                photoresponse.innerHTML = "You have added a cute pic!"
-            }
-        };
-        xhttp.open("POST", "http://localhost:8081/postphoto/", true);
-        xhttp.setRequestHeader('Content-type', 'application/json');
-        xhttp.send(json1);
+          data.linkki = linkki.value;
+          console.log(data.elain);
+          console.log(data.linkki);
+          console.log("data: " + data);
+          var json1 = JSON.stringify(data);
+          console.log("json:" + json1);
 
-        //reset values
-        elain.value = "";
-        linkki.value = "";
+          //Tarkisetaan alkaako nettisivu osoite http
+          var test = linkki.value.startsWith("http");
+          console.log(test);
 
-        document.getElementById("description").selectedIndex = 0;
+
+if(test==true){
+  xhttp.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      console.log("Responsetext: " + xhttp.responseText);
+
+      var photoresponse = document.getElementById("photoresponse");
+      photoresponse.innerHTML = "You have added a cute pic!"
+    }
+  };
+  xhttp.open("POST", "http://localhost:8081/postphoto/", true);
+  xhttp.setRequestHeader('Content-type', 'application/json');
+  xhttp.send(json1);
+
+  //reset values
+  elain.value = "";
+  linkki.value = "";
+
+  document.getElementById("description").selectedIndex = 0;
+} else {
+  var photoresponse = document.getElementById("photoresponse");
+  photoresponse.innerHTML = "You have wrong adress"
+}
+
+
+
     };
 
     function addComment(key){
