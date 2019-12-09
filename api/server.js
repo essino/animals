@@ -113,7 +113,7 @@ app.post('/postcomment', function(req, res) {
         if (err) throw err;
     });
     res.send(req.body);
-    console.log("toimii");
+    console.log("toimii!");
 });
 
 
