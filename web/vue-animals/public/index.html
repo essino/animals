@@ -12,7 +12,7 @@
 </head>
 <body>
 <div>
-    <h1><a href="#front">Cute animal pics</a></h1>
+    <h1><a href="#front">cute animal pics</a></h1>
 
 </div>
 <nav>
@@ -27,8 +27,8 @@
         <img id="miska" width="500px" src="../../../img/miskalogo5.gif" alt="Logo"/>
     </div>
 
-    <div id="addPage">
-        <div>Describe your cute animal:
+    <div id="addPage" class="opaque">
+        <div class="opaque2">Describe your cute animal:
             <label for="description">
                 <select id="description">
                     <option value="item1" selected="selected">Supercute</option>
@@ -38,19 +38,19 @@
                 </select>
             </label>
         </div>
-        <div>
+        <div class="opaque2">
             <label for="animal">
                 What animal is it? <input id="animal" placeholder="Animal <3" type="text"/>
             </label>
         </div>
-        <div>
+        <div class="opaque2">
             <label for="link">
                 Add your link. <input id="link" placeholder="Link" type="text"/>
             </label>
         </div>
         <button type="button" onclick="addPhoto()">Add a cute animal pic.</button>
 
-        <div id="photoresponse"></div>
+        <div id="photoresponse" class="opaque2"></div>
     </div>
 
     <div id="showPage">
@@ -62,12 +62,14 @@
         <div id="realBigPicturePic"></div>
         <div id="bigPicturePage"></div>
 
+        <div class="opaque">
 
-        <div id="newcomment">
+        <div id="newcomment" class="opaque2">
             Comment: <input type="text" id="comment" name="comment" pattern="" placeholder="Comment here!" />
         </div>
         <button type="button" id="commentbutton">Post your comment!</button>
-        <div id="commentresponse"></div>
+        <div id="commentresponse" class="opaque2"></div>
+        </div>
     </div>
 
 </main>
@@ -203,6 +205,7 @@
                 var divElement = document.getElementById("bigPicturePage");
                 divElement.innerText = "";
                 var unOnrder = document.createElement("ul");
+                unOnrder.innerHTML = "Cute comments";
                 divElement.appendChild(unOnrder);
 
                 if (lenght > 0) { /**Tutkitaan tuleeko tietokannasta ollenkaan tuloksia */
@@ -385,7 +388,7 @@ if(test==true){
   document.getElementById("description").selectedIndex = 0;
 } else {
   var photoresponse = document.getElementById("photoresponse");
-  photoresponse.innerHTML = "You have wrong adress"
+  photoresponse.innerHTML = "You have wrong address."
 }
 
 
