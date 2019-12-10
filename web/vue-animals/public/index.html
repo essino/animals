@@ -48,12 +48,13 @@
                 Add your link. <input id="link" placeholder="Link" type="text"/>
             </label>
         </div>
-        <input type="submit" value="Submit" onclick="addPhoto()"/>
+        <button type="button" onclick="addPhoto()">Add a cute animal pic.</button>
+
         <div id="photoresponse"></div>
     </div>
 
     <div id="showPage">
-        <button type="button" onclick="searchDatabase()">Show cute animal pics.</button>
+
         <div id="results"></div>
     </div>
 
@@ -252,10 +253,11 @@
                     divElement.innerText = "";
                     var i;
                     for (i in json) {
-                        var unOnrder = document.createElement("ul");
-                        divElement.appendChild(unOnrder);
-                        var listElement = document.createElement("li");
+                        //var unOnrder = document.createElement("ul");
+                        //divElement.appendChild(unOnrder);
+                        //var listElement = document.createElement("li");
                         var pic = json[i].Linkki;
+                        //unOnrder.appendChild(listElement);
                         //console.log(json[i].Linkki);
                         makeBigPicture(pic);
                     }
@@ -326,6 +328,7 @@
 
     //*Tekee
     function makeBigPicture(pic) {
+
         var link = document.createElement("a");
         let noPic = document.getElementById("realBigPicturePic");
         var x = document.createElement("img");

@@ -1,7 +1,14 @@
 body {
-    background-color: lightskyblue;
+    background-image: url("");
+    background-color: black;
     text-align: center;
     font-family: Arial, Verdana, sans-serif;
+    color: lightpink;
+}
+
+body {
+    background-image: url("http://www.zingerbugimages.com/backgrounds/multi_colored_stars2.gif");
+    background-color: #cccccc;
 }
 
 ul {
@@ -18,3 +25,9 @@ ul li {
 .photovar {
     cursor: pointer;
 }
+
+a {
+    text-decoration: none;
+    color: pink;
+}
+
