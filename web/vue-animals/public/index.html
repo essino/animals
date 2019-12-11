@@ -12,7 +12,7 @@
 </head>
 <body>
 <div>
-    <h1><a href="#front">cute animal pics</a></h1>
+    <h1><a href="#front" >cute animal pics</a></h1>
 
 </div>
 <nav>
@@ -43,6 +43,7 @@
                 What animal is it? <input id="animal" placeholder="Animal <3" type="text"/>
             </label>
         </div>
+
         <div class="opaque2">
             <label for="link">
                 Add your link. <input id="link" placeholder="Link" type="text"/>
@@ -54,16 +55,18 @@
     </div>
 
     <div id="showPage">
-
-        <select id="description2">
+<div class="opaque">
+        <select id="description2" >
             <option value="Supercute" selected="selected">Supercute</option>
             <option value="Adorable">Adorable</option>
             <option value="Lovely">Lovely</option>
             <option value="Incredible">Incredible</option>
         </select>
-        <button type="button" onclick="findCutties()">Find special cutie pies</button>
+        <button type="button" onclick="findCutties()" >Find special cutie pies</button>
+</div>
+
         <div id="results"></div>
-        <div id="results2">Tässä on elementti</div>
+        <div id="results2"></div>
 
     </div>
 
@@ -213,6 +216,8 @@
         divElement.innerText = "";
         var unOnrder = document.createElement("ul");
         divElement.appendChild(unOnrder);
+        //tämä lisätty keskiviikkona
+          unOnrder.innerHTML = "Cute comments";
 
         /*Jos tietokannasta löytyy kommentteja kuvalle, ne tulostuvat tässä*/
         if (lenght > 0) {
@@ -234,6 +239,7 @@
         else {
           //var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
           //divElement.appendChild(unOnrder);
+
           var listElement2 = document.createElement("li");
           var comment = "No comments! Do you have something to say about this cutie pie?";
           listElement2.innerHTML = comment;
@@ -266,9 +272,10 @@
           var i;
           /*Luo elementin kuvalle ja lisää kuvan linkin elementtiin*/
           for (i in json) {
-            var unOnrder = document.createElement("ul");
-            divElement.appendChild(unOnrder);
-            var listElement = document.createElement("li");
+              //seuraavat kolme riviä pois keskiviikko
+            //var unOnrder = document.createElement("ul");
+              // divElement.appendChild(unOnrder);
+            //var listElement = document.createElement("li");
             var pic = json[i].Linkki;
             //console.log(json[i].Linkki);
             makeBigPicture(pic);
