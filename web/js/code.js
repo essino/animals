@@ -1,5 +1,8 @@
 var json = null;
 
+/**
+ * Structure that adds href mark-up in the url to facilitate the usage of single page application
+ */
 if (window.location.hash === '#front' || json === null) {
   document.getElementById('addPage').style.display = 'none';
   document.getElementById('showPage').style.display = 'none';
@@ -27,6 +30,7 @@ else if (window.location.hash === '#comment') {
  */
 document.querySelector('nav > ul > li:nth-child(1)').onclick = function() {
   console.log('first link clicked');
+  clearBox("photoresponse");
   document.getElementById('addPage').style.display = 'block';
   document.getElementById('frontPage').style.display = 'none';
   document.getElementById('showPage').style.display = 'none';
@@ -64,14 +68,14 @@ document.querySelector('h1').onclick = function(){
  */
 function showCommentsElement() {
   console.log("image clicked");
+  clearBox("commentresponse");
   document.getElementById('Comments').style.display = 'block';
   document.getElementById('addPage').style.display = 'none';
   document.getElementById('showPage').style.display = 'none';
   document.getElementById('frontPage').style.display = 'none';
 }
 
-//**Search image information from database
-
+/**Searches image information from database*/
 function searchDatabase() {
   var number = new XMLHttpRequest();
   number.onreadystatechange = function () {
@@ -84,14 +88,14 @@ function searchDatabase() {
         }
       }
       key = 1;
-      /**Make element for results if their exist.*/
+      /**Makes an element for results if they exist.*/
       if (lenght > 0) {
 
         var divElement = document.getElementById("results");
         divElement.innerText = "";
         var i;
 
-        /**Put information for picture and send them function makePicture(), which make pictures to page.*/
+        /**Puts information for pictures and sends them to the function makePicture(), which makes pictures to the page.*/
         for (i in json) {
           var pic = json[i].linkki; /*Gives picture address to value of pic. */
           key = json[i].id; /* Gives picture id from dateabes to value of key. */
@@ -105,10 +109,9 @@ function searchDatabase() {
   number.send();
 }
 
-/**Search added comments for picture from database or give supportive message to write own comment to picture if there is non comments.*/
-
+/**Searches added comments for a picture from the database or gives supportive message to write own comment to picture if there is no comments.*/
 function searchDatabase2(key) {
-  /**Change string key to int animalNumber.**/
+  /**Changes string key to int animalNumber.**/
   var animalNumber = parseInt(key);
   var number = new XMLHttpRequest();
   number.onreadystatechange = function () {
@@ -116,7 +119,7 @@ function searchDatabase2(key) {
       json = JSON.parse(number.responseText);
       var lenght = 0;
 
-      /**Search how many comments found from database*/
+      /**Searches how many comments found from database*/
       for (var key in json) {
         if (json.hasOwnProperty(key)) {
           lenght++;
@@ -128,10 +131,10 @@ function searchDatabase2(key) {
       divElement.innerText = "";
       var unOnrder = document.createElement("ul");
       divElement.appendChild(unOnrder);
-      //tämä lisätty keskiviikkona
+
       unOnrder.innerHTML = "Cute comments";
 
-      /*If any comment founds they printing here*/
+      /*If any comment found, they are printed here*/
       if (lenght > 0) {
         console.log(json[0].Kommentti);
 
@@ -145,7 +148,7 @@ function searchDatabase2(key) {
           unOnrder.appendChild(listElement);
         }
       }
-      /*If there is no comments on picture, page show constant comment to support user to make own comment */
+      /*If there is no comments on picture, the page shows constant comment to invite user to make their own comment */
       else {
         //var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
         //divElement.appendChild(unOnrder);
@@ -159,9 +162,9 @@ function searchDatabase2(key) {
   number.open("GET", "http://localhost:8081/puppies?Avain=" + animalNumber);
   number.send();
 }
-/**Search chosen picture from database in bigger size.*/
+/**Searches for chosen picture from database in bigger size.*/
 function searchDatabase3(key) {
-  /**Change string key to int animalNumber.**/
+  /**Changes the string key to int animalNumber.**/
   var animalNumber =  parseInt(key);
 
   var number = new XMLHttpRequest();
@@ -181,14 +184,9 @@ function searchDatabase3(key) {
         var divElement = document.getElementById("realBigPicturePic");
         divElement.innerText = "";
         var i;
-        /*Make element and added picture on it and link to comments.*/
+        /**Makes element and added picture on it and link to comments.*/
         for (i in json) {
-          //seuraavat kolme riviä pois keskiviikko
-          //var unOnrder = document.createElement("ul");
-          // divElement.appendChild(unOnrder);
-          //var listElement = document.createElement("li");
           var pic = json[i].Linkki;
-          //console.log(json[i].Linkki);
           makeBigPicture(pic);
         }
       }
@@ -197,17 +195,16 @@ function searchDatabase3(key) {
   number.open("GET", "http://localhost:8081/animalbabys?id="+animalNumber);
   number.send();
 
-  //essi kokeilee
   var commenttemp = document.getElementById("commentbutton");
   commenttemp.setAttribute("onclick", "addComment("+ key +")");
 }
 
-/**Add picture in the picture list on page.*/
+/**Adds a picture in the picture list on page.*/
 function makePicture(pic, key) {
 
   var link = document.createElement("a");
 
-  /**Shape picture size and gives it information of id-number on database.*/
+  /**Shapes picture size and gives it information of id-number on database.*/
   link.setAttribute("class", "photovar");
   var x = document.createElement("img");
   x.setAttribute("src", pic);
@@ -216,18 +213,18 @@ function makePicture(pic, key) {
   x.setAttribute("onclick", "bigPicture(" + key + " );");
   link.appendChild(x);
 
-  /**Add picture to element*/
+  /**Adds a picture to element*/
   let resultselement = document.getElementById('results');
   resultselement.appendChild(link);
 }
 
-/**Add picture in the picture list on page.*/
+/**Adds a picture in the picture list on page.*/
 function makePicture2(pic, key) {
   console.log("Olen täällä!");
   console.log(pic);
   var link = document.createElement("a");
 
-  /**Shape picture size and gives it information of id-number on database.*/
+  /**Shapes picture size and gives it information of id-number on database.*/
   link.setAttribute("class", "photovar");
   var x = document.createElement("img");
   x.setAttribute("src", pic);
@@ -236,15 +233,14 @@ function makePicture2(pic, key) {
   x.setAttribute("onclick", "bigPicture(" + key + " );");
   link.appendChild(x);
 
-  /**Add picture to element*/
+  /**Adds a picture to element*/
   let resultselement2 = document.getElementById('results');
   resultselement2.appendChild(link);
 }
 
-/**Call database function and use it get big picture and comments of that picture.*/
+/**Calls the database function and uses it to get the big picture and comments of that picture.*/
 function bigPicture(key) {
 
-  //essi kokeilee kommenttielementtijuttua
   var photovar = document.getElementsByClassName("photovar");
   var i;
   for (i = 0; i < photovar.length; i++) {
@@ -254,27 +250,24 @@ function bigPicture(key) {
 
   searchDatabase2(key);
   searchDatabase3(key); //Kutsuu funktiota jolla tehdään valittu kuva isona.
-  //var bigPic = document.getElementById("bigPicturePage");
-  //var realBigPic = document.getElementById("realBigPicturePage");
-  //var text = document.createTextNode(key); //Tekee tekstille elementin
-  //bigPic.appendChild(text); //Tulostaa kuvan id:n elementtiin
 }
 
-
-/**Make element for big picture and formulata picture.*/
+/**Makes an element for the big picture and formulates picture.*/
 function makeBigPicture(pic) {
   var link = document.createElement("a");
   let noPic = document.getElementById("realBigPicturePic");
   var x = document.createElement("img");
   x.setAttribute("src", pic);
-  x.setAttribute("height", "400");
+  x.setAttribute("width", "75%");
   link.appendChild(x);
   noPic.appendChild(link);
   console.log("Iso kuva luotu!");
   console.log(pic);
 }
 
-
+/**
+ * Adds the photo (the link, description and animal) into the database
+ */
 function addPhoto() {
   var xhttp = new XMLHttpRequest();
   var data = {};
@@ -286,7 +279,6 @@ function addPhoto() {
   data.elain = elain.value;
   var linkki = document.getElementById('link');
 
-
   data.linkki = linkki.value;
   console.log(data.elain);
   console.log(data.linkki);
@@ -294,12 +286,15 @@ function addPhoto() {
   var json1 = JSON.stringify(data);
   console.log("json:" + json1);
 
-  /**Check if web address stars http*/
+  /**Checks if the web address starts with http*/
   var test = linkki.value.startsWith("http");
   console.log(test);
 
-  /**Put picture on database if web address stars http*/
+  /**Puts the picture on database if web address starts with http*/
   if(test==true){
+    /**
+     * gets response from back end
+     */
     xhttp.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         console.log("Responsetext: " + xhttp.responseText);
@@ -318,16 +313,16 @@ function addPhoto() {
 
     document.getElementById("description").selectedIndex = 0;
   }
-  /**Give error message if address starting somehow different*/
+  /**Gives the error message if the address starts somehow different*/
   else {
     var photoresponse = document.getElementById("photoresponse");
     photoresponse.innerHTML = "You have wrong adress"
   }
 
-
-
 };
-
+/**
+ * Adds a comment into the database and on the page
+ */
 function addComment(key){
   console.log("sisällä addcommentissa ja kuva nro " + key);
 
@@ -345,6 +340,9 @@ function addComment(key){
 
 
   if (!!comment.value){
+    /**
+     * gets response from back end
+     */
     xhttp.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         console.log("Responsetext: " + xhttp.responseText);
@@ -352,7 +350,7 @@ function addComment(key){
         var commentresponse = document.getElementById("commentresponse");
         commentresponse.innerHTML = "You added a cute comment!";
 
-        //show new comment
+        //shows new comment
         searchDatabase2(key);
         console.log("kommenttien pitäisi toimia, jos tähän päästään");
       }
@@ -361,7 +359,7 @@ function addComment(key){
     xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send(json2);
 
-    //reset values
+    //resets values
     comment.value = "";
 
   } else {
@@ -371,7 +369,7 @@ function addComment(key){
 
 
 }
-/**Find special cuties group pictures and clear the old results from element.*/
+/**Finds special cuties group pictures and clears the old results from element.*/
 function findCutties(){
 
   clearBox("results");
@@ -380,13 +378,13 @@ function findCutties(){
   searchDatabase4(choice);
 
 }
-/**Clear the element*/
+/**Clears the element*/
 function clearBox(elementID)
 {
   document.getElementById(elementID).innerHTML = "";
 }
 
-/**Search from database selected cuties group of pictures*/
+/**Searches from database selected cuties group of pictures*/
 function searchDatabase4(choice) {
   console.log("Pääsin tänne");
   console.log(choice);
@@ -404,7 +402,7 @@ function searchDatabase4(choice) {
         }
       }
       key = 1;
-      /**Make element for results if their exist.*/
+      /**Makes element for results if they exist.*/
       console.log("Olen etsimässä tietoja");
       if (lenght > 0) {
         console.log("Responsetext: " + number.responseText);
@@ -413,7 +411,7 @@ function searchDatabase4(choice) {
         divElement.innerText = "";
         var i;
 
-        /**Set information for picture and sent them to function makePicture2 which make picture to the page*/
+        /**Sets information for picture and send them to function makePicture2 which makes the picture onto the page*/
         for (i in json) {
           var pic = json[i].Linkki; /*Gives picture address to value of pic.*/
           console.log("Ollaanko vielä mukana?");
