@@ -159,9 +159,9 @@ var server = app.listen(8081, function () {
 //Cisco päälle?
 var con = mysql.createConnection({
   host: "mysql.metropolia.fi",
-  user: "essinor",
+  user: "",
   password: "",
-  database: ""
+  database: "essinor"
 });
 
 con.connect(function(err) {
