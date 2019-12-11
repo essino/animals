@@ -53,12 +53,24 @@ app.get('/puppies', function (req, res) {
 });
 
 app.get('/sweetassugar', function (req, res) {
+
   console.log(req.params);
 
-  con.query("SELECT Linkki " + "FROM Elainkuvia" + "WHERE Kuvaus = ?", function (err, result, fields) {
-    if (err) throw err;
+
+  var q = url.parse(req.url, true).query;
+  var choice = q.Kuvaus;
+  var sql = "SELECT id, Linkki " + "FROM Elainkuvia" + " WHERE Kuvaus=?";
+
+  console.log(q.Kuvaus);
+
+  con.query (sql, [q.Kuvaus], function(err, result) {
     let results = [];
-    if (result.length){
+    if (err){
+      throw (err);
+    }
+
+
+    else{
       for (var i = 0; i < result.length; i++){
         results.push(result[i]);
       }
@@ -66,7 +78,8 @@ app.get('/sweetassugar', function (req, res) {
     }
     //sends the HTTP response
     res.send(results);
-  })
+
+    });
 });
 
 

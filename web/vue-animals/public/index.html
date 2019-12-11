@@ -62,7 +62,7 @@
         </select>
         <button type="button" onclick="findCutties()">Find special cutie pies</button>
         <div id="results"></div>
-        <div id="results2"></div>
+        <div id="results2">Tässä on elementti</div>
 
     </div>
 
@@ -307,7 +307,7 @@
 
     /**Muotoilee kuvan kokoa ja antaa sille tietoja*/
     link.setAttribute("class", "photovar");
-    var x = document.createElement("img2");
+    var x = document.createElement("img");
     x.setAttribute("src", pic);
     x.setAttribute("id", key);
     x.setAttribute("height", "200");
@@ -459,9 +459,12 @@
 
   function searchDatabase4(choice) {
     console.log("Pääsin tänne");
+    console.log(choice);
+    var choice2 = String(choice);
     var number = new XMLHttpRequest();
     number.onreadystatechange = function () {
       if (number.readyState === 4 && number.status === 200) {
+        console.log("Täällä ollaan");
         json = JSON.parse(number.responseText);
         var lenght = 0;
         for (var key in json) {
@@ -473,23 +476,27 @@
         /**Loudaan elementti tuloksille, jos niitä on*/
         console.log("Olen etsimässä tietoja");
         if (lenght > 0) {
-
+    console.log("Responsetext: " + number.responseText);
           var divElement = document.getElementById("results2");
           divElement.innerText = "";
           var i;
 
-          /**Asetetaan tietoja kuvalle ja lähetetään ne funkitolle makePicture, mikä tekee sivulle kuvan*/
+          /**Asetetaan tietoja kuvalle ja lähetetään ne funkitolle makePicture2, mikä tekee sivulle kuvan*/
           for (i in json) {
-            var pic = json[i].linkki; /*Annetaan pic:lle arvoksi kuvan osoite */
+            var pic = json[i].Linkki; /*Annetaan pic:lle arvoksi kuvan osoite */
+            console.log("Ollaanko vielä mukana?");
+            console.log(pic);
             key = json[i].id; /* Annetaan key:lle arvoksi kuvan id tietokannassa */
+            console.log(key);
             makePicture2(pic, key);
 
           }
         }
       }
     };
-    number.open("GET", "http://localhost:8081/sweetassugar");
+    number.open("GET", "http://localhost:8081/sweetassugar?Kuvaus="+choice);
     number.send();
+    console.log("Yritän olla täällä");
   }
 
 </script>
