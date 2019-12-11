@@ -160,8 +160,8 @@ var server = app.listen(8081, function () {
 var con = mysql.createConnection({
   host: "mysql.metropolia.fi",
   user: "essinor",
-  password: "kissa",
-  database: "essinor"
+  password: "",
+  database: ""
 });
 
 con.connect(function(err) {
