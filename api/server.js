@@ -52,6 +52,25 @@ app.get('/puppies', function (req, res) {
     }});
 });
 
+app.get('/sweetassugar', function (req, res) {
+  console.log(req.params);
+
+  con.query("SELECT Linkki " + "FROM Elainkuvia" + "WHERE Kuvaus = ?", function (err, result, fields) {
+    if (err) throw err;
+    let results = [];
+    if (result.length){
+      for (var i = 0; i < result.length; i++){
+        results.push(result[i]);
+      }
+      console.log(result);
+    }
+    //sends the HTTP response
+    res.send(results);
+  })
+});
+
+
+
 app.get('/animalbabys', function (req, res) {
   console.log(req.params);
 
@@ -100,20 +119,20 @@ app.post('/postphoto', function(req, res) {
 app.post('/postcomment', function(req, res) {
 
 
-    console.log(req);
-    console.log(res);
-    console.log("body: ");
-    console.log(req.body);
-    console.log("params:");
-    console.log(req.params);
-    console.log("key: " + req.body.key);
-    console.log("comment: " + req.body.comment);
-    //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
-    con.query("INSERT INTO Komentit (Kommentti, Avain) VALUES (?, ?);", [req.body.comment, req.body.key], function (err, result, fields) {
-        if (err) throw err;
-    });
-    res.send(req.body);
-    console.log("toimii");
+  console.log(req);
+  console.log(res);
+  console.log("body: ");
+  console.log(req.body);
+  console.log("params:");
+  console.log(req.params);
+  console.log("key: " + req.body.key);
+  console.log("comment: " + req.body.comment);
+  //con.query("INSERT INTO Elainkuvia (Kuvaus, Elain, Linkki) VALUES ('"+req.params.descr+ "', '"+req.params.animal+"', '"+req.params.linkki+"');", function (err, result, fields) {
+  con.query("INSERT INTO Komentit (Kommentti, Avain) VALUES (?, ?);", [req.body.comment, req.body.key], function (err, result, fields) {
+    if (err) throw err;
+  });
+  res.send(req.body);
+  console.log("toimii");
 });
 
 
