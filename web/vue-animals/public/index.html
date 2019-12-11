@@ -8,6 +8,7 @@
     <link href="animals.css" type="text/css" rel="stylesheet" />
 
     <title>Cute animals!</title>
+    <script src="../../js/code.js"></script>
 
 </head>
 <body>
@@ -160,7 +161,8 @@
         document.getElementById('frontPage').style.display = 'none';
     }
 
-  //**Haetaan tietoja kuvista tietokannasta
+  //**Search image information from database
+
   function searchDatabase() {
     var number = new XMLHttpRequest();
     number.onreadystatechange = function () {
@@ -173,17 +175,17 @@
           }
         }
         key = 1;
-        /**Loudaan elementti tuloksille, jos niitä on*/
+        /**Make element for results if their exist.*/
         if (lenght > 0) {
 
           var divElement = document.getElementById("results");
           divElement.innerText = "";
           var i;
 
-          /**Asetetaan tietoja kuvalle ja lähetetään ne funkitolle makePicture, mikä tekee sivulle kuvan*/
+          /**Put information for picture and send them function makePicture(), which make pictures to page.*/
           for (i in json) {
-            var pic = json[i].linkki; /*Annetaan pic:lle arvoksi kuvan osoite */
-            key = json[i].id; /* Annetaan key:lle arvoksi kuvan id tietokannassa */
+            var pic = json[i].linkki; /*Gives picture address to value of pic. */
+            key = json[i].id; /* Gives picture id from dateabes to value of key. */
             makePicture(pic, key);
 
           }
@@ -194,9 +196,10 @@
     number.send();
   }
 
-  /**Haetaan kuvaan lisätyt kommentit tietokannasta tai haetaan kommentointiin kannusta kommentti jos kuvaa ei olla kommentointi*/
+  /**Search added comments for picture from database or give supportive message to write own comment to picture if there is non comments.*/
+
   function searchDatabase2(key) {
-    /**Muutetaan string muottoinen key muuttuja int muotoiseksi animalNumber muuttujaksi**/
+    /**Change string key to int animalNumber.**/
     var animalNumber = parseInt(key);
     var number = new XMLHttpRequest();
     number.onreadystatechange = function () {
@@ -204,7 +207,7 @@
         json = JSON.parse(number.responseText);
         var lenght = 0;
 
-        /**Tutkii montako kommenttia tietokannasta löytyy*/
+        /**Search how many comments found from database*/
         for (var key in json) {
           if (json.hasOwnProperty(key)) {
             lenght++;
@@ -219,7 +222,7 @@
         //tämä lisätty keskiviikkona
           unOnrder.innerHTML = "Cute comments";
 
-        /*Jos tietokannasta löytyy kommentteja kuvalle, ne tulostuvat tässä*/
+        /*If any comment founds they printing here*/
         if (lenght > 0) {
           console.log(json[0].Kommentti);
 
@@ -229,17 +232,14 @@
 
             var listElement = document.createElement("li");
             var comment = json[i].Kommentti;
-            console.log(json[i].Kommentti);
-            //showComment(comment);
             listElement.innerHTML = comment;
             unOnrder.appendChild(listElement);
           }
         }
-        /*Jos kuvassa ei ole kommentteja tulee vakio kommentti, joka innostaa käyttäjää kommenenttejen jättämiseen*/
+        /*If there is no comments on picture, page show constant comment to support user to make own comment */
         else {
           //var unOnrder = document.createElement("ul"); //Kommentti kuviin jossa ei ole kommentteja, nimesin elementin listElement2:ksi jotta sen voi myöhemmin muotoilla css:ssä eri näköiseksi
           //divElement.appendChild(unOnrder);
-
           var listElement2 = document.createElement("li");
           var comment = "No comments! Do you have something to say about this cutie pie?";
           listElement2.innerHTML = comment;
@@ -250,9 +250,11 @@
     number.open("GET", "http://localhost:8081/puppies?Avain=" + animalNumber);
     number.send();
   }
-  /**Hakee tietoknnasta valitun kuvan isona*/
+  /**Search chosen picture from database in bigger size.*/
   function searchDatabase3(key) {
-    var animalNumber =  parseInt(key); //Muuttaa string muotoisen key:n intiksi.
+    /**Change string key to int animalNumber.**/
+    var animalNumber =  parseInt(key);
+
     var number = new XMLHttpRequest();
     number.onreadystatechange = function() {
       if (number.readyState === 4 && number.status === 200) {
@@ -270,7 +272,7 @@
           var divElement = document.getElementById("realBigPicturePic");
           divElement.innerText = "";
           var i;
-          /*Luo elementin kuvalle ja lisää kuvan linkin elementtiin*/
+          /*Make element and added picture on it and link to comments.*/
           for (i in json) {
               //seuraavat kolme riviä pois keskiviikko
             //var unOnrder = document.createElement("ul");
@@ -291,12 +293,12 @@
         commenttemp.setAttribute("onclick", "addComment("+ key +")");
     }
 
-  /**Lisää kuvat kuvaluetteloon  sivulle*/
+  /**Add picture in the picture list on page.*/
   function makePicture(pic, key) {
 
         var link = document.createElement("a");
 
-    /**Muotoilee kuvan kokoa ja antaa sille tietoja*/
+    /**Shape picture size and gives it information of id-number on database.*/
     link.setAttribute("class", "photovar");
     var x = document.createElement("img");
     x.setAttribute("src", pic);
@@ -305,17 +307,18 @@
     x.setAttribute("onclick", "bigPicture(" + key + " );");
     link.appendChild(x);
 
-    //muutos: jotta menee oikeaan elementtiin
+    /**Add picture to element*/
     let resultselement = document.getElementById('results');
     resultselement.appendChild(link);
   }
 
+  /**Add picture in the picture list on page.*/
   function makePicture2(pic, key) {
     console.log("Olen täällä!");
     console.log(pic);
     var link = document.createElement("a");
 
-    /**Muotoilee kuvan kokoa ja antaa sille tietoja*/
+    /**Shape picture size and gives it information of id-number on database.*/
     link.setAttribute("class", "photovar");
     var x = document.createElement("img");
     x.setAttribute("src", pic);
@@ -324,12 +327,12 @@
     x.setAttribute("onclick", "bigPicture(" + key + " );");
     link.appendChild(x);
 
-    //muutos: jotta menee oikeaan elementtiin
+    /**Add picture to element*/
     let resultselement2 = document.getElementById('results');
     resultselement2.appendChild(link);
   }
 
-  /**Kutsuu tietokantafunktiota, jolla haetaan iso kuva  ja kommentit valitusta kuvasta.*/
+  /**Call database function and use it get big picture and comments of that picture.*/
   function bigPicture(key) {
 
         //essi kokeilee kommenttielementtijuttua
@@ -348,16 +351,8 @@
     //bigPic.appendChild(text); //Tulostaa kuvan id:n elementtiin
   }
 
-  /*Kutsuu tietokannasta ison kuvan hakua ja antaa tälle funktiolle avain arvon, jotta oikea kommentti löytyy
-  function realBigPicture(key) {
-      console.log("Kohta tulee kuva "+key);
-      searchDatabase3(key);
-      //*Luo elementin mihin sijoittaa hakutuloksen
 
-  }
-*/
-
-  //*Tekee isolle kuvalle elementin ja muotoilee kuvaa*/
+  /**Make element for big picture and formulata picture.*/
   function makeBigPicture(pic) {
     var link = document.createElement("a");
     let noPic = document.getElementById("realBigPicturePic");
@@ -390,11 +385,11 @@
         var json1 = JSON.stringify(data);
         console.log("json:" + json1);
 
-    //Tarkisetaan alkaako nettisivu osoite http
+    /**Check if web address stars http*/
     var test = linkki.value.startsWith("http");
     console.log(test);
 
-
+/**Put picture on database if web address stars http*/
     if(test==true){
       xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -412,11 +407,13 @@
             elain.value = "";
             linkki.value = "";
 
-            document.getElementById("description").selectedIndex = 0;
-        } else {
-            var photoresponse = document.getElementById("photoresponse");
-            photoresponse.innerHTML = "You have wrong address."
-        }
+      document.getElementById("description").selectedIndex = 0;
+    }
+    /**Give error message if address starting somehow different*/
+    else {
+      var photoresponse = document.getElementById("photoresponse");
+      photoresponse.innerHTML = "You have wrong adress"
+    }
 
 
 
@@ -465,22 +462,22 @@
 
 
   }
-
+/**Find special cuties group pictures and clear the old results from element.*/
   function findCutties(){
-    /**Tyhjennetään elementti, jotta vanhat tulokset katoavat näkyvistä*/
+
     clearBox("results");
     var choice = document.getElementById("description2").value;
     console.log(choice);
     searchDatabase4(choice);
 
   }
-/**Tyhjentään tulos elementin*/
+/**Clear the element*/
   function clearBox(elementID)
   {
     document.getElementById(elementID).innerHTML = "";
   }
 
-
+/**Search from database selected cuties group of pictures*/
   function searchDatabase4(choice) {
     console.log("Pääsin tänne");
     console.log(choice);
@@ -498,7 +495,7 @@
           }
         }
         key = 1;
-        /**Loudaan elementti tuloksille, jos niitä on*/
+        /**Make element for results if their exist.*/
         console.log("Olen etsimässä tietoja");
         if (lenght > 0) {
     console.log("Responsetext: " + number.responseText);
@@ -507,12 +504,12 @@
           divElement.innerText = "";
           var i;
 
-          /**Asetetaan tietoja kuvalle ja lähetetään ne funkitolle makePicture2, mikä tekee sivulle kuvan*/
+          /**Set information for picture and sent them to function makePicture2 which make picture to the page*/
           for (i in json) {
-            var pic = json[i].Linkki; /*Annetaan pic:lle arvoksi kuvan osoite */
+            var pic = json[i].Linkki; /*Gives picture address to value of pic.*/
             console.log("Ollaanko vielä mukana?");
             console.log(pic);
-            key = json[i].id; /* Annetaan key:lle arvoksi kuvan id tietokannassa */
+            key = json[i].id; /* Gives picture id on databes  to value of key. */
             console.log(key);
             makePicture2(pic, key);
 
@@ -526,6 +523,7 @@
   }
 
 </script>
+
 <!-- built files will be auto injected -->
 </body>
 </html>
