@@ -76,7 +76,7 @@ app.post('/postphoto', function(req, res) {
 //app.post('/postphoto/:descr/:animal/:linkki', function(req, res) {
   console.log(req);
   console.log(res);
-  console.log("body: ");
+  console.log("body!: ");
   console.log(req.body);
   console.log("params:");
   console.log(req.params);
